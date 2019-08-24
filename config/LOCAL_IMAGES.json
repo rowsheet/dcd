@@ -1,14 +1,137 @@
 {
-    "rowsheet/hello_flask:latest": false,
-    "rowsheet/db_proxy:latest": false,
-    "rowsheet/database:latest": false,
-    "rowsheet/analytics:latest": false,
-    "rowsheet/crm:latest": false,
-    "rowsheet/ecommerce:latest": false,
-    "rowsheet/webserver:latest": false,
-    "rowsheet/fake_analytics:latest": false,
-    "rowsheet/fake_crm:latest": false,
-    "rowsheet/fake_db_proxy:latest": false,
-    "rowsheet/fake_ecommerce:latest": false,
-    "rowsheet/fake_webserver:latest": false
+    "rowsheet/fake_analytics:latest": {
+        "action": "PUSH",
+        "error": false,
+        "error_msg": null,
+        "history": {
+            "2019-08-24 20:43:12Z": {
+                "action": "BUILD",
+                "error": false,
+                "error_msg": null
+            },
+            "2019-08-24 20:43:32Z": {
+                "action": "BUILD",
+                "error": false,
+                "error_msg": null
+            },
+            "2019-08-24 20:48:45Z": {
+                "action": "PUSH",
+                "error": false,
+                "error_msg": null
+            },
+            "2019-08-24 20:48:54Z": {
+                "action": "BUILD",
+                "error": false,
+                "error_msg": null
+            }
+        }
+    },
+    "rowsheet/fake_crm:latest": {
+        "action": "PUSH",
+        "error": false,
+        "error_msg": null,
+        "history": {
+            "2019-08-24 20:43:13Z": {
+                "action": "BUILD",
+                "error": false,
+                "error_msg": null
+            },
+            "2019-08-24 20:43:44Z": {
+                "action": "BUILD",
+                "error": false,
+                "error_msg": null
+            },
+            "2019-08-24 20:48:47Z": {
+                "action": "PUSH",
+                "error": false,
+                "error_msg": null
+            },
+            "2019-08-24 20:48:58Z": {
+                "action": "BUILD",
+                "error": false,
+                "error_msg": null
+            }
+        }
+    },
+    "rowsheet/fake_db_proxy:latest": {
+        "action": "PUSH",
+        "error": false,
+        "error_msg": null,
+        "history": {
+            "2019-08-24 20:43:14Z": {
+                "action": "BUILD",
+                "error": false,
+                "error_msg": null
+            },
+            "2019-08-24 20:43:56Z": {
+                "action": "BUILD",
+                "error": false,
+                "error_msg": null
+            },
+            "2019-08-24 20:48:48Z": {
+                "action": "PUSH",
+                "error": false,
+                "error_msg": null
+            },
+            "2019-08-24 20:49:01Z": {
+                "action": "BUILD",
+                "error": false,
+                "error_msg": null
+            }
+        }
+    },
+    "rowsheet/fake_ecommerce:latest": {
+        "action": "PUSH",
+        "error": false,
+        "error_msg": null,
+        "history": {
+            "2019-08-24 20:43:15Z": {
+                "action": "BUILD",
+                "error": false,
+                "error_msg": null
+            },
+            "2019-08-24 20:44:07Z": {
+                "action": "BUILD",
+                "error": false,
+                "error_msg": null
+            },
+            "2019-08-24 20:48:50Z": {
+                "action": "PUSH",
+                "error": false,
+                "error_msg": null
+            },
+            "2019-08-24 20:49:04Z": {
+                "action": "BUILD",
+                "error": false,
+                "error_msg": null
+            }
+        }
+    },
+    "rowsheet/fake_webserver:latest": {
+        "action": "PUSH",
+        "error": false,
+        "error_msg": null,
+        "history": {
+            "2019-08-24 20:43:17Z": {
+                "action": "BUILD",
+                "error": false,
+                "error_msg": null
+            },
+            "2019-08-24 20:44:18Z": {
+                "action": "BUILD",
+                "error": false,
+                "error_msg": null
+            },
+            "2019-08-24 20:48:51Z": {
+                "action": "PUSH",
+                "error": false,
+                "error_msg": null
+            },
+            "2019-08-24 20:49:07Z": {
+                "action": "BUILD",
+                "error": false,
+                "error_msg": null
+            }
+        }
+    }
 }

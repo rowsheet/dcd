@@ -77,10 +77,26 @@ class ServiceConfig:
         self._distinct_tagged_images = set(self._distinct_tagged_images)
 
     def _save(self):
-        with open(self._config_location, "w") as file:
-            file.write(
-                pyaml.dump(self._config)
-            )
+        config_filepath = self._config_location
+        backup_config_filepath = "%s.backup_%s" % (
+            self._config_location,
+            timestamp.now().replace(" ","_"),
+        )
+        os.system("cp %s %s" % (
+            config_filepath,
+            backup_config_filepath))
+        try:
+            with open(self._config_location, "w") as file:
+                file.write(
+                    pyaml.dump(self._config)
+                )
+        except Exception as ex:
+            logger.error("Failed to save %s, backup file at %s." % (
+                config_filepath,
+                backup_config_filepath))
+            logger.error("\t" + str(ex))
+            return
+        os.system("rm %s" % backup_config_filepath)
 
     def BUILD_ALL_LATEST_IMAGE_AS_LATEST(self):
         local_images = LocalImages()
@@ -90,6 +106,7 @@ class ServiceConfig:
             registry = service_config["registry"]
             GITHUB_CLONE(repository)
             local_images.BUILD(
+                REPOSITORY=repository,
                 REGISTRY=registry,
                 TAG="latest",
             )
@@ -133,19 +150,16 @@ class ServiceConfig:
                 )
 
 def GITHUB_CLONE(repository):
-    services_folder_name = "services"
-
     repo_name = repository.split("/")[1].split(".")[0]
-    repo_path = os.path.join(config.DCD_DIR(), services_folder_name, repo_name, "")
-    deploy_key_path = os.path.join(config.DCD_DIR(), "deploy_keys", repo_name, )
+    repo_path = os.path.join(config.DCD_SERVICES_DIR(), repo_name, "")
+    deploy_key_path = os.path.join(config.DCD_DEPLOY_KEYS_DIR(), repo_name)
 
-    old_clones_dir = os.path.join(config.DCD_DIR(), services_folder_name, ".old")
-    if os.path.isdir(old_clones_dir) == False:
-        os.system("mkdir %s" % old_clones_dir)
+    if os.path.isdir(config.DCD_OLD_CLONES_DIR()) == False:
+        os.system("mkdir %s" % config.DCD_OLD_CLONES_DIR())
     file_timestamp = timestamp.now().replace(" ","_")
     mv_old_cmd = "mv %s %s%s" % (
             repo_path,
-            os.path.join(old_clones_dir, repo_name),
+            os.path.join(config.DCD_OLD_CLONES_DIR(), repo_name),
             file_timestamp
     )
     response = runner.step(

@@ -1,5 +1,5 @@
 services/
 .scratch
 deploy_keys/
-TEMP.sh
-__pycache__
+__pycache__/
+__pycache__/*

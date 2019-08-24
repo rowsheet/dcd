@@ -48,8 +48,6 @@ def load_service_ids_by_name():
     logger.debug("load_service_ids_by_name:")
 
     #---------------------------------------------------------------------------
-    # logger.confirm_continue()
-    #---------------------------------------------------------------------------
 
     services = client.services.list()
     return {
@@ -60,8 +58,6 @@ def load_service_ids_by_name():
 def load_service_by_name(service_name):
     logger.debug("load_service_by_name: '%s'" % service_name)
 
-    #---------------------------------------------------------------------------
-    # logger.confirm_continue()
     #---------------------------------------------------------------------------
 
     service_ids_by_name = load_service_ids_by_name()
@@ -85,19 +81,15 @@ def build_image(repo_name, image_name):
     logger.debug("build_image: '%s','%s'" % (repo_name, image_name))
 
     #---------------------------------------------------------------------------
-    # logger.confirm_continue()
-    #---------------------------------------------------------------------------
 
     runner.step(
         "docker build -t %s ./services/%s" % (image_name, repo_name),
-        "Re-building dev image."
+        "Re-building image."
     )
 
 def remove_service(service_name):
     logger.debug("remove_service: '%s'" % service_name)
 
-    #---------------------------------------------------------------------------
-    # logger.confirm_continue()
     #---------------------------------------------------------------------------
 
     try:
@@ -114,8 +106,6 @@ def launch_service(service_name, image_name, host_name):
         service_name, image_name, host_name
     ))
 
-    #---------------------------------------------------------------------------
-    # logger.confirm_continue()
     #---------------------------------------------------------------------------
 
     remove_service(service_name)
@@ -136,59 +126,108 @@ def launch_service(service_name, image_name, host_name):
         ]
             )
 
-def clean_for_host_name(name):
+def _clean_for_host_name(name):
     return name.replace("_","-").lower()
 
-def clean_for_service_name(name):
+def _clean_for_service_name(name):
     return name.replace(".","-").lower()
 
-def build_host_name(client, repo_name, right_level_domain):
+def _build_host_name(client, repo_name, right_level_domain):
     return ".".join([
-        clean_for_host_name(client),
-        clean_for_host_name(repo_name),
-        clean_for_host_name(right_level_domain),
+        _clean_for_host_name(client),
+        _clean_for_host_name(repo_name),
+        _clean_for_host_name(right_level_domain),
     ])
 
-def build_service_name(client, repo_name, right_level_domain):
+def _build_service_name(client, repo_name, right_level_domain):
     return "--".join([
-        clean_for_service_name(client),
-        clean_for_service_name(repo_name),
-        clean_for_service_name(right_level_domain),
+        _clean_for_service_name(client),
+        _clean_for_service_name(repo_name),
+        _clean_for_service_name(right_level_domain),
     ])
 
-def build_image_name(docker_registry_base_path, repo_name, tag):
+def _build_image_name(docker_registry_base_path, repo_name, tag):
     return "%s/%s:%s" % (
         docker_registry_base_path,
         repo_name,
         tag,
     )
 
-def LAUNCH_DEV(repo_name, right_level_domain, docker_registry_base_path):
-    logger.debug("launch_latest_dev: '%s'" % repo_name)
+def launch_client(client_name, repo_name, right_level_domain, docker_registry_base_path):
+    logger.debug("launch_client: '%s','%s','%s','%s'" % (
+        client_name, repo_name, right_level_domain, docker_registry_base_path
+    ))
     """ host_name """
-    host_name = build_host_name(
-        "dev", repo_name, right_level_domain
+    host_name = _build_host_name(
+        client_name, repo_name, right_level_domain
     )
     logger.warning("\thost_name: '%s'" % host_name)
     """ image_name """
-    image_name = build_image_name(
+    image_name = _build_image_name(
         docker_registry_base_path,
         repo_name,
-        "dev",
+        "latest",
     )
     logger.warning("\timage_name: '%s'" % image_name)
     """ service_name """
-    service_name = build_service_name(
-        "dev", repo_name, right_level_domain
+    service_name = _build_service_name(
+        client_name, repo_name, right_level_domain
     )
     logger.warning("\tservice_name: '%s'" % service_name)
 
     #---------------------------------------------------------------------------
-    # logger.confirm_continue()
+
+    launch_service(service_name, image_name, host_name)
+
+def DEPLOY_FROM_CONFIG(
+
+def LAUNCH_MASTER_DEV(
+        LAST_MASTER_COMMIT_HASH,
+        
+def LAUNCH_BRANCH_DEV(
+        BRANCH_NAME,
+        LAST_BRANCH_COMMIT_HASH,
+
+def LAUNCH_STAGING(
+        RELEASE_TAG,
+
+def FAIL_STAGING(
+
+def launch_master_dev(last_master_commit_hash
+
+def launch_staging(release_tag, repo_name, right_level_domain, docker_registry_base_path):
+    logger.debug("launch_staging: '%s','%s','%s','%s'" % (
+        release_tag, repo_name, right_level_domain, docker_registry_base_path
+    ))
+    """ host_name """
+    host_name = _build_host_name(
+        "staging", repo_name, right_level_domain
+    )
+    logger.warning("\thost_name: '%s'" % host_name)
+    """ image_name """
+    image_name = _build_image_name(
+        docker_registry_base_path,
+        repo_name,
+        release_tag,
+    )
+    logger.warning("\timage_name: '%s'" % image_name)
+    """ service_name """
+    service_name = _build_service_name(
+        "staging", repo_name, right_level_domain
+    )
+    logger.warning("\tservice_name: '%s'" % service_name)
+
     #---------------------------------------------------------------------------
 
     build_image(repo_name, image_name)
-    launch_service(service_name, image_name, host_name)
+
+    launch_client(
+        "staging",
+        repo_name,
+        right_level_domain,
+        docker_registry_base_path
+    )
 
 # logger.confirm_continue()
-LAUNCH_DEV("hello_flask", "rowsheet.com", "rowsheet")
+launch_staging("v0.0.1", "hello_flask", "rowsheet.com", "rowsheet")
+# launch_client("foo", "hello_flask", "rowsheet.com", "rowsheet")

@@ -1,4 +1,5 @@
 import yaml
+import pyaml
 import json
 from rs_utils import logger
 
@@ -27,7 +28,6 @@ class ImageStore:
                 )
             )
 
-
 class LocalImages(ImageStore):
 
     _config_location = "./LOCAL_IMAGES.json"
@@ -48,6 +48,7 @@ class LocalImages(ImageStore):
 
         image_id = REPOSITORY + ":" + TAG
 
+"""
 local_images = LocalImages()
 local_images._dump()
 local_images.BUILD(
@@ -61,6 +62,7 @@ local_images.BUILD(
     TAG="latest")
 local_images._save()
 local_images._dump()
+"""
 
 class RemoteImages(ImageStore):
 
@@ -84,7 +86,7 @@ def TEMP_DEBUG(data, how="pprint"):
         logger.debug("JSON DUMP", line=True)
         logger.debug(data_str)
     elif how == "yaml":
-        data_str = yaml.dump(data)
+        data_str = pyaml.dump(data)
         logger.debug("YAML DUMP", line=True)
         logger.debug(data_str)
     else:
@@ -105,7 +107,7 @@ class ServiceConfig:
 
     def _dump(self):
         logger.debug("Service Config", line=True)
-        config_str = yaml.dump(self._config)
+        config_str = pyaml.dump(self._config)
         logger.debug(config_str)
 
     def _load(self):
@@ -116,7 +118,28 @@ class ServiceConfig:
 
     def _validate_client_configs(self):
         clients = self._config["clients"]
-        TEMP_DEBUG(clients)
+        for client_name, client_config in clients.items():
+            client_deployment = client_config["deployment"]
+            deployment_services = list(
+                self._config["deployments"][client_deployment]["services"]
+            )
+            deployment_services.sort()
+            client_services = list(client_config["services"])
+            client_services.sort()
+            if deployment_services != client_services:
+                raise Exception(("Invalid client '%s', deployment of " +
+                    "type '%s', but missing some required services.") % (
+                    client_name, client_deployment))
+            client_services = client_config["services"]
+            for client_service_name, client_service_config in client_services.items():
+                dep_serv_req = self._config["services"][client_service_name]
+                for env_name, env_required in dep_serv_req.items():
+                    if env_required == True:
+                        if env_name not in client_service_config:
+                            raise Exception(("Invalid client service config for " +
+                                "service '%s' for client '%s' is missing some " +
+                                "required env_vars.") % (client_service_name, client_name))
+                                
 
     def _load_distinct_tagged_images(self):
         deployments = self._config["deployments"]
@@ -141,12 +164,12 @@ class ServiceConfig:
     def _save(self):
         with open(self._config_location, "w") as file:
             file.write(
-                yaml.dump(self._config)
+                pyaml.dump(self._config)
             )
 
-service_config = ServiceConfig()
+# service_config = ServiceConfig()
 # service_config._dump()
-service_config._save()
+# service_config._save()
 
 #-------------------------------------------------------------------------------
 # Step 0) Nothing is deployed anywhere.

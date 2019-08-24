@@ -205,7 +205,7 @@ deployments:
 services:
   fake_analytics:
     registry: rowsheet/fake_analytics
-    repository: https://github.com/rowsheet/fake_analytics.git
+    repository: github.com:rowsheet/fake_analytics.git
     version_status:
       prod: latest
       stage: latest
@@ -215,7 +215,7 @@ services:
       RATE_LIMITER: true
   fake_crm:
     registry: rowsheet/fake_crm
-    repository: https://github.com/rowsheet/fake_crm.git
+    repository: github.com:rowsheet/fake_crm.git
     version_status:
       prod: latest
       stage: latest
@@ -224,7 +224,7 @@ services:
       MAX_USERS: true
   fake_db_proxy:
     registry: rowsheet/fake_db_proxy
-    repository: https://github.com/rowsheet/fake_db_proxy.git
+    repository: github.com:rowsheet/fake_db_proxy.git
     version_status:
       prod: latest
       stage: latest
@@ -238,7 +238,7 @@ services:
       TEST_EXTRA: false
   fake_ecommerce:
     registry: rowsheet/fake_ecommerce
-    repository: https://github.com/rowsheet/fake_ecommerce.git
+    repository: github.com:rowsheet/fake_ecommerce.git
     version_status:
       prod: latest
       stage: latest
@@ -249,7 +249,7 @@ services:
       SITE_NAME: true
   fake_webserver:
     registry: rowsheet/fake_webserver
-    repository: https://github.com/rowsheet/fake_webserver.git
+    repository: github.com:rowsheet/fake_webserver.git
     version_status:
       prod: latest
       stage: latest

@@ -1,7 +1,10 @@
 import yaml
 import pyaml
 import json
+from os import path
+
 from rs_utils import logger
+import config
 
 class JsonStore:
 
@@ -30,7 +33,11 @@ class JsonStore:
 
 class LocalImages(JsonStore):
 
-    _config_location = "./LOCAL_IMAGES.json"
+    _config_location = path.join(
+        config.DCD_DIR(),
+        "config",
+        "LOCAL_IMAGES.json",
+    )
 
     def __init__(self):
         super(self.__class__, self).__init__()
@@ -52,7 +59,11 @@ class LocalImages(JsonStore):
 
 class RemoteImages(JsonStore):
 
-    _config_location = "./REMOTE_IMAGES.json"
+    _config_location = path.join(
+        config.DCD_DIR(),
+        "config",
+        "REMOTE_IMAGES.json",
+    )
 
     def __init__(self):
         super(self.__class__, self).__init__()
@@ -65,7 +76,12 @@ class RemoteImages(JsonStore):
 
 class ServiceConfig:
 
-    _config_location = "./SERVICE_CONFIG.yaml"
+    _config_location = path.join(
+        config.DCD_DIR(),
+        "config",
+        "SERVICE_CONFIG.yaml",
+    )
+
     _distinct_tagged_images = []
 
     _config = None
@@ -187,7 +203,11 @@ def GITHUB_CLONE_OR_PULL(repository):
 
 class Services(JsonStore):
 
-    _config_location = "./SERVICES.json"
+    _config_location = path.join(
+        config.DCD_DIR(),
+        "config",
+        "SERVICES.json",
+    )
 
     def __init__(self):
         super(self.__class__, self).__init__()

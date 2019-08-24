@@ -1,0 +1,260 @@
+clients:
+  bar:
+    deployment: plus
+    services:
+      fake_db_proxy:
+        PORT: 8000
+        DB_HOST: bar_db_host
+        DB_NAME: bar_db_name
+        DB_PASS: bar_db_pass
+        DB_USER: bar_db_user
+        DB_PORT: bar_db_port
+      fake_ecommerce:
+        PORT: 8000
+        MAX_PRODUCTS: 1000
+        PERCENT_FEE: 5
+        SITE_NAME: 'Bar Storefront'
+      fake_webserver:
+        PORT: 8000
+        RATE_LIMITER: 1000
+        SITE_NAME: Bar
+        THEME: normal
+    type: prod
+  baz:
+    deployment: premium
+    services:
+      fake_analytics:
+        PORT: 8000
+        API_KEY: baz_API_KEY
+        RATE_LIMITER: 100
+      fake_db_proxy:
+        PORT: 8000
+        DB_HOST: baz_db_host
+        DB_NAME: baz_db_name
+        DB_PASS: baz_db_pass
+        DB_USER: baz_db_user
+        DB_PORT: baz_db_port
+      fake_ecommerce:
+        PORT: 8000
+        MAX_PRODUCTS: 3000
+        PERCENT_FEE: 4
+        SITE_NAME: 'Baz Storefront'
+      fake_webserver:
+        PORT: 8000
+        RATE_LIMITER: 3000
+        SITE_NAME: Baz
+        THEME: material
+    type: prod
+  foo:
+    deployment: free
+    services:
+      fake_db_proxy:
+        PORT: 8000
+        DB_HOST: foo_db_host
+        DB_NAME: foo_db_name
+        DB_PASS: foo_db_pass
+        DB_USER: foo_db_user
+        DB_PORT: foo_db_port
+      fake_webserver:
+        PORT: 8000
+        RATE_LIMITER: 100
+        SITE_NAME: Foo
+        THEME: normal
+    type: prod
+  qux:
+    deployment: enterprise
+    services:
+      fake_analytics:
+        PORT: 8000
+        API_KEY: qux_API_KEY
+        RATE_LIMITER: 200
+      fake_crm:
+        PORT: 8000
+        MAX_USERS: 5000
+      fake_db_proxy:
+        PORT: 8000
+        DB_HOST: qux_db_host
+        DB_NAME: qux_db_name
+        DB_PASS: qux_db_pass
+        DB_USER: qux_db_user
+        DB_PORT: qux_db_port
+      fake_ecommerce:
+        PORT: 8000
+        MAX_PRODUCTS: 5000
+        PERCENT_FEE: 3
+        SITE_NAME: 'Qux Storefront'
+      fake_webserver:
+        PORT: 8000
+        RATE_LIMITER: 3000
+        SITE_NAME: Qux
+        THEME: material
+    type: prod
+  staging_enterprise:
+    deployment: enterprise
+    services:
+      fake_analytics:
+        PORT: 8000
+        API_KEY: staging_enterprise_API_KEY
+        RATE_LIMITER: 200
+      fake_crm:
+        PORT: 8000
+        MAX_USERS: 5000
+      fake_db_proxy:
+        PORT: 8000
+        DB_HOST: staging_enterprise_db_host
+        DB_NAME: staging_enterprise_db_name
+        DB_PASS: staging_enterprise_db_pass
+        DB_USER: staging_enterprise_db_user
+        DB_PORT: staging_enterprise_db_port
+      fake_ecommerce:
+        PORT: 8000
+        MAX_PRODUCTS: 5000
+        PERCENT_FEE: 3
+        SITE_NAME: 'Staging Client Enterprise Store'
+      fake_webserver:
+        PORT: 8000
+        RATE_LIMITER: 3000
+        SITE_NAME: 'Staging Client Enterprise'
+        THEME: material
+    type: staging
+  staging_free:
+    deployment: free
+    services:
+      fake_db_proxy:
+        PORT: 8000
+        DB_HOST: staging_free_db_host
+        DB_NAME: staging_free_db_name
+        DB_PASS: staging_free_db_pass
+        DB_USER: staging_free_db_user
+        DB_PORT: staging_free_db_port
+      fake_webserver:
+        PORT: 8000
+        RATE_LIMITER: 100
+        SITE_NAME: 'Staging Client Free'
+        THEME: normal
+    type: staging
+  staging_plus:
+    deployment: plus
+    services:
+      fake_db_proxy:
+        PORT: 8000
+        DB_HOST: staging_plus_db_host
+        DB_NAME: staging_plus_db_name
+        DB_PASS: staging_plus_db_pass
+        DB_USER: staging_plus_db_user
+        DB_PORT: staging_plus_db_port
+      fake_ecommerce:
+        PORT: 8000
+        MAX_PRODUCTS: 1000
+        PERCENT_FEE: 5
+        SITE_NAME: 'Staging Client Plus Store'
+      fake_webserver:
+        PORT: 8000
+        RATE_LIMITER: 1000
+        SITE_NAME: 'Staging Client Plus'
+        THEME: normal
+    type: staging
+  staging_premium:
+    deployment: premium
+    services:
+      fake_analytics:
+        PORT: 8000
+        API_KEY: staging_premium_API_KEY
+        RATE_LIMITER: 100
+      fake_db_proxy:
+        PORT: 8000
+        DB_HOST: staging_premium_db_host
+        DB_NAME: staging_premium_db_name
+        DB_PASS: staging_premium_db_pass
+        DB_USER: staging_premium_db_user
+        DB_PORT: staging_premium_db_port
+      fake_ecommerce:
+        PORT: 8000
+        MAX_PRODUCTS: 3000
+        PERCENT_FEE: 4
+        SITE_NAME: 'Staging Client Premium Store'
+      fake_webserver:
+        PORT: 8000
+        RATE_LIMITER: 3000
+        SITE_NAME: 'Staging Client Premium'
+        THEME: material
+    type: staging
+deployments:
+  enterprise:
+    services:
+    - fake_analytics
+    - fake_crm
+    - fake_db_proxy
+    - fake_ecommerce
+    - fake_webserver
+  free:
+    services:
+    - fake_db_proxy
+    - fake_webserver
+  plus:
+    services:
+    - fake_db_proxy
+    - fake_ecommerce
+    - fake_webserver
+  premium:
+    services:
+    - fake_analytics
+    - fake_db_proxy
+    - fake_ecommerce
+    - fake_webserver
+services:
+  fake_analytics:
+    registry: rowsheet/fake_analytics
+    repository: https://github.com/rowsheet/fake_analytics.git
+    version_status:
+      prod: latest
+      stage: latest
+    env_var_req:
+      PORT: true
+      API_KEY: true
+      RATE_LIMITER: true
+  fake_crm:
+    registry: rowsheet/fake_crm
+    repository: https://github.com/rowsheet/fake_crm.git
+    version_status:
+      prod: latest
+      stage: latest
+    env_var_req:
+      PORT: true
+      MAX_USERS: true
+  fake_db_proxy:
+    registry: rowsheet/fake_db_proxy
+    repository: https://github.com/rowsheet/fake_db_proxy.git
+    version_status:
+      prod: latest
+      stage: latest
+    env_var_req:
+      PORT: true
+      DB_HOST: true
+      DB_NAME: true
+      DB_PASS: true
+      DB_USER: true
+      DB_PORT: true
+      TEST_EXTRA: false
+  fake_ecommerce:
+    registry: rowsheet/fake_ecommerce
+    repository: https://github.com/rowsheet/fake_ecommerce.git
+    version_status:
+      prod: latest
+      stage: latest
+    env_var_req:
+      PORT: true
+      MAX_PRODUCTS: true
+      PERCENT_FEE: true
+      SITE_NAME: true
+  fake_webserver:
+    registry: rowsheet/fake_webserver
+    repository: https://github.com/rowsheet/fake_webserver.git
+    version_status:
+      prod: latest
+      stage: latest
+    env_var_req:
+      PORT: true
+      RATE_LIMITER: true
+      SITE_NAME: true
+      THEME: true

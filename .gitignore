@@ -1,1 +1,4 @@
 services/
+.scratch
+deploy_keys/
+TEMP.sh

@@ -1,0 +1,14 @@
+{
+    "rowsheet/hello_flask:latest": false,
+    "rowsheet/db_proxy:latest": false,
+    "rowsheet/database:latest": false,
+    "rowsheet/analytics:latest": false,
+    "rowsheet/crm:latest": false,
+    "rowsheet/ecommerce:latest": false,
+    "rowsheet/webserver:latest": false,
+    "rowsheet/fake_analytics:latest": false,
+    "rowsheet/fake_crm:latest": false,
+    "rowsheet/fake_db_proxy:latest": false,
+    "rowsheet/fake_ecommerce:latest": false,
+    "rowsheet/fake_webserver:latest": false
+}

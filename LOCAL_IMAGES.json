@@ -1,9 +1,0 @@
-{
-    "rowsheet/hello_flask:latest": false,
-    "rowsheet/db_proxy:latest": false,
-    "rowsheet/database:latest": false,
-    "rowsheet/analytics:latest": false,
-    "rowsheet/crm:latest": false,
-    "rowsheet/ecommerce:latest": false,
-    "rowsheet/webserver:latest": false
-}

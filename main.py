@@ -120,9 +120,7 @@ class ServiceConfig:
         clients = self._config["clients"]
         for client_name, client_config in clients.items():
             client_deployment = client_config["deployment"]
-            deployment_services = list(
-                self._config["deployments"][client_deployment]["services"]
-            )
+            deployment_services = self._config["deployments"][client_deployment]["services"]
             deployment_services.sort()
             client_services = list(client_config["services"])
             client_services.sort()
@@ -132,8 +130,8 @@ class ServiceConfig:
                     client_name, client_deployment))
             client_services = client_config["services"]
             for client_service_name, client_service_config in client_services.items():
-                dep_serv_req = self._config["services"][client_service_name]
-                for env_name, env_required in dep_serv_req.items():
+                env_var_req = self._config["services"][client_service_name]["env_var_req"]
+                for env_name, env_required in env_var_req.items():
                     if env_required == True:
                         if env_name not in client_service_config:
                             raise Exception(("Invalid client service config for " +
@@ -142,24 +140,23 @@ class ServiceConfig:
                                 
 
     def _load_distinct_tagged_images(self):
-        deployments = self._config["deployments"]
-        for deployment_name, deployment in deployments.items():
-            services = deployment["services"]
-            for service_name, service in services.items():
-                prod_config = service["prod"]
-                tagged_image = ":".join([
-                    prod_config["repository"],
-                    prod_config["tag"],
-                ])
-                self._distinct_tagged_images.append(tagged_image)
-                stage_config = service["stage"]
-                tagged_image = ":".join([
-                    stage_config["repository"],
-                    stage_config["tag"],
-                ])
-                self._distinct_tagged_images.append(tagged_image)
+        services = self._config["services"]
+        for service_name, service in services.items():
+            version_status = service["version_status"]
+            prod_config = version_status["prod"]
+            tagged_image = ":".join([
+                prod_config["repository"],
+                prod_config["tag"],
+            ])
+            self._distinct_tagged_images.append(tagged_image)
+            stage_config = version_status["stage"]
+            tagged_image = ":".join([
+                stage_config["repository"],
+                stage_config["tag"],
+            ])
+            self._distinct_tagged_images.append(tagged_image)
         self._distinct_tagged_images = set(self._distinct_tagged_images)
-        # TEMP_DEBUG(self._distinct_tagged_images)
+        TEMP_DEBUG(self._distinct_tagged_images)
 
     def _save(self):
         with open(self._config_location, "w") as file:
@@ -167,7 +164,7 @@ class ServiceConfig:
                 pyaml.dump(self._config)
             )
 
-# service_config = ServiceConfig()
+service_config = ServiceConfig()
 # service_config._dump()
 # service_config._save()
 

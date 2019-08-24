@@ -146,127 +146,83 @@ clients:
 deployments:
   enterprise:
     services:
-      analytics:
-        prod:
-          repository: rowsheet/analytics
-          tag: latest
-        stage:
-          repository: rowsheet/analytics
-          tag: latest
-      crm:
-        prod:
-          repository: rowsheet/crm
-          tag: latest
-        stage:
-          repository: rowsheet/crm
-          tag: latest
-      db_proxy:
-        prod:
-          repository: rowsheet/db_proxy
-          tag: latest
-        stage:
-          repository: rowsheet/db_proxy
-          tag: latest
-      ecommerce:
-        prod:
-          repository: rowsheet/ecommerce
-          tag: latest
-        stage:
-          repository: rowsheet/ecommerce
-          tag: latest
-      webserver:
-        prod:
-          repository: rowsheet/webserver
-          tag: latest
-        stage:
-          repository: rowsheet/webserver
-          tag: latest
+    - analytics
+    - crm
+    - db_proxy
+    - ecommerce
+    - webserver
   free:
     services:
-      db_proxy:
-        prod:
-          repository: rowsheet/db_proxy
-          tag: latest
-        stage:
-          repository: rowsheet/db_proxy
-          tag: latest
-      webserver:
-        prod:
-          repository: rowsheet/webserver
-          tag: v0.0.1
-        stage:
-          repository: rowsheet/webserver
-          tag: latest
+    - db_proxy
+    - webserver
   plus:
     services:
-      db_proxy:
-        prod:
-          repository: rowsheet/db_proxy
-          tag: latest
-        stage:
-          repository: rowsheet/db_proxy
-          tag: v0.0.1
-      ecommerce:
-        prod:
-          repository: rowsheet/ecommerce
-          tag: latest
-        stage:
-          repository: rowsheet/ecommerce
-          tag: latest
-      webserver:
-        prod:
-          repository: rowsheet/webserver
-          tag: latest
-        stage:
-          repository: rowsheet/webserver
-          tag: latest
+    - db_proxy
+    - ecommerce
+    - webserver
   premium:
     services:
-      analytics:
-        prod:
-          repository: rowsheet/analytics
-          tag: latest
-        stage:
-          repository: rowsheet/analytics
-          tag: latest
-      db_proxy:
-        prod:
-          repository: rowsheet/db_proxy
-          tag: latest
-        stage:
-          repository: rowsheet/db_proxy
-          tag: latest
-      ecommerce:
-        prod:
-          repository: rowsheet/ecommerce
-          tag: latest
-        stage:
-          repository: rowsheet/ecommerce
-          tag: latest
-      webserver:
-        prod:
-          repository: rowsheet/webserver
-          tag: latest
-        stage:
-          repository: rowsheet/webserver
-          tag: v0.0.2
+    - analytics
+    - db_proxy
+    - ecommerce
+    - webserver
 services:
   analytics:
-    api_key: true
-    rate_limiter: true
+    version_status:
+      prod:
+        repository: rowsheet/analytics
+        tag: latest
+      stage:
+        repository: rowsheet/analytics
+        tag: latest
+    env_var_req:
+      api_key: true
+      rate_limiter: true
   crm:
-    max_users: true
+    version_status:
+      prod:
+        repository: rowsheet/crm
+        tag: latest
+      stage:
+        repository: rowsheet/crm
+        tag: latest
+    env_var_req:
+      max_users: true
   db_proxy:
-    DB_HOST: true
-    DB_NAME: true
-    DB_PASS: true
-    DB_USER: true
-    TEST_EXTRA: false
+    version_status:
+      prod:
+        repository: rowsheet/db_proxy
+        tag: latest
+      stage:
+        repository: rowsheet/db_proxy
+        tag: latest
+    env_var_req:
+      DB_HOST: true
+      DB_NAME: true
+      DB_PASS: true
+      DB_USER: true
+      TEST_EXTRA: false
   ecommerce:
-    max_products: true
-    percent_fee: true
-    site_name: true
+    version_status:
+      prod:
+        repository: rowsheet/ecommerce
+        tag: latest
+      stage:
+        repository: rowsheet/ecommerce
+        tag: latest
+    env_var_req:
+      max_products: true
+      percent_fee: true
+      site_name: true
   webserver:
-    rate_limiter: true
-    site_name: true
-    theme: true
+    version_status:
+      prod:
+        repository: rowsheet/webserver
+        tag: latest
+      stage:
+        repository: rowsheet/webserver
+        tag: latest
+    env_var_req:
+      rate_limiter: true
+      site_name: true
+      theme: true

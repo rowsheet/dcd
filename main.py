@@ -3,7 +3,7 @@ import pyaml
 import json
 from rs_utils import logger
 
-class ImageStore:
+class JsonStore:
 
     _data = {}
 
@@ -11,7 +11,7 @@ class ImageStore:
         self._load()
 
     def _dump(self):
-        logger.debug("Local Images", line=True)
+        logger.debug("", line=True)
         data_str = json.dumps(self._data, indent=4)
         logger.debug(data_str)
 
@@ -28,7 +28,7 @@ class ImageStore:
                 )
             )
 
-class LocalImages(ImageStore):
+class LocalImages(JsonStore):
 
     _config_location = "./LOCAL_IMAGES.json"
 
@@ -64,7 +64,7 @@ local_images._save()
 local_images._dump()
 """
 
-class RemoteImages(ImageStore):
+class RemoteImages(JsonStore):
 
     _config_location = "./LOCAL_IMAGES.json"
 
@@ -142,17 +142,17 @@ class ServiceConfig:
     def _load_distinct_tagged_images(self):
         services = self._config["services"]
         for service_name, service in services.items():
+            registry = service["registry"]
+            repository = service["repository"]
             version_status = service["version_status"]
-            prod_config = version_status["prod"]
             tagged_image = ":".join([
-                prod_config["repository"],
-                prod_config["tag"],
+                registry,
+                version_status["prod"],
             ])
             self._distinct_tagged_images.append(tagged_image)
-            stage_config = version_status["stage"]
             tagged_image = ":".join([
-                stage_config["repository"],
-                stage_config["tag"],
+                registry,
+                version_status["stage"],
             ])
             self._distinct_tagged_images.append(tagged_image)
         self._distinct_tagged_images = set(self._distinct_tagged_images)
@@ -164,6 +164,26 @@ class ServiceConfig:
                 pyaml.dump(self._config)
             )
 
+class DeployedServices(JsonStore):
+
+    _config_location = "./LOCAL_IMAGES.json"
+
+    def __init__(self):
+        super(self.__class__, self).__init__()
+
+    def BUILD(self, REPOSITORY=None, TAG=None):
+
+        image_id = REPOSITORY + ":" + TAG
+        error = False
+
+        self._data[image_id] = error
+
+        self._save()
+
+    def PUSH(self, REPOSITORY=None, TAG=None):
+
+        image_id = REPOSITORY + ":" + TAG
+
 service_config = ServiceConfig()
 # service_config._dump()
 # service_config._save()
@@ -172,16 +192,19 @@ service_config = ServiceConfig()
 # Step 0) Nothing is deployed anywhere.
 #-------------------------------------------------------------------------------
 
-def DEPLOY_FROM_CONFIG():
-    service_config = ServiceConfig()
+# def DEPLOY_FROM_CONFIG():
+#     service_config = ServiceConfig()
 
-"""
 #-------------------------------------------------------------------------------
 # Step 1) “Latest” image built from last master commit ID (from commit_A)
 #-------------------------------------------------------------------------------
 
-def BUILD_LATEST_IMAGE_AS_LATEST(
+def BUILD_LATEST_IMAGE_AS_LATEST():
+    # git clone origin master
+    # docker build -t image:latest ./path/
+    pass
 
+"""
 #-------------------------------------------------------------------------------
 # Step 2) “Latest” image pushed to dockerhub (from commit_A)
 #-------------------------------------------------------------------------------

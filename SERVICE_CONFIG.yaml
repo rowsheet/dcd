@@ -168,34 +168,28 @@ deployments:
     - webserver
 services:
   analytics:
+    registry: rowsheet/analytics
+    repository: github.com/rowsheet/analytics
     version_status:
-      prod:
-        repository: rowsheet/analytics
-        tag: latest
-      stage:
-        repository: rowsheet/analytics
-        tag: latest
+      prod: latest
+      stage: latest
     env_var_req:
       api_key: true
       rate_limiter: true
   crm:
+    registry: rowsheet/crm
+    repository: github.com/rowsheet/crm
     version_status:
-      prod:
-        repository: rowsheet/crm
-        tag: latest
-      stage:
-        repository: rowsheet/crm
-        tag: latest
+      prod: latest
+      stage: latest
     env_var_req:
       max_users: true
   db_proxy:
+    registry: rowsheet/db_proxy
+    repository: github.com/rowsheet/db_proxy
     version_status:
-      prod:
-        repository: rowsheet/db_proxy
-        tag: latest
-      stage:
-        repository: rowsheet/db_proxy
-        tag: latest
+      prod: latest
+      stage: latest
     env_var_req:
       DB_HOST: true
       DB_NAME: true
@@ -203,25 +197,21 @@ services:
       DB_USER: true
       TEST_EXTRA: false
   ecommerce:
+    registry: rowsheet/ecommerce
+    repository: github.com/rowsheet/ecommerce
     version_status:
-      prod:
-        repository: rowsheet/ecommerce
-        tag: latest
-      stage:
-        repository: rowsheet/ecommerce
-        tag: latest
+      prod: latest
+      stage: latest
     env_var_req:
       max_products: true
       percent_fee: true
       site_name: true
   webserver:
+    registry: rowsheet/webserver
+    repository: github.com/rowsheet/webserver
     version_status:
-      prod:
-        repository: rowsheet/webserver
-        tag: latest
-      stage:
-        repository: rowsheet/webserver
-        tag: latest
+      prod: latest
+      stage: latest
     env_var_req:
       rate_limiter: true
       site_name: true

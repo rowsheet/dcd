@@ -35,65 +35,33 @@ class LocalImages(JsonStore):
     def __init__(self):
         super(self.__class__, self).__init__()
 
-    def BUILD(self, REPOSITORY=None, TAG=None):
-
-        image_id = REPOSITORY + ":" + TAG
+    def BUILD(self, REGISTRY=None, TAG=None):
+        logger.debug("Building image '%s:%s'" % (REGISTRY, TAG))
+        logger.warning("docker build -t %s:%s ." % (REGISTRY, TAG))
+        image_guid = REGISTRY + ":" + TAG
         error = False
-
-        self._data[image_id] = error
-
+        self._data[image_guid] = error
         self._save()
 
-    def PUSH(self, REPOSITORY=None, TAG=None):
-
-        image_id = REPOSITORY + ":" + TAG
-
-"""
-local_images = LocalImages()
-local_images._dump()
-local_images.BUILD(
-    REPOSITORY="rowsheet/hello_flask",
-    TAG="latest")
-local_images.BUILD(
-    REPOSITORY="rowsheet/db_proxy",
-    TAG="latest")
-local_images.BUILD(
-    REPOSITORY="rowsheet/database",
-    TAG="latest")
-local_images._save()
-local_images._dump()
-"""
+    def PUSH(self, REGISTRY=None, TAG=None):
+        logger.debug("Pushing image '%s:%s'" % (REGISTRY, TAG))
+        logger.warning("docker push %s:%s" % (REGISTRY, TAG))
+        image_guid = REGISTRY + ":" + TAG
+        remote_images = RemoteImages()
+        remote_images.PUSH(IMAGE_GUID=image_guid)
 
 class RemoteImages(JsonStore):
 
-    _config_location = "./LOCAL_IMAGES.json"
+    _config_location = "./REMOTE_IMAGES.json"
 
     def __init__(self):
         super(self.__class__, self).__init__()
 
-    def PUSH(self, REPOSITORY=None, TAG=None):
-
-        image_id = REPOSITORY + ":" + TAG
+    def PUSH(self, IMAGE_GUID=None):
+        logger.success("Remove recieving image '%s'..." % IMAGE_GUID)
         error = False
-
-        self._data[image_id] = error
-
+        self._data[IMAGE_GUID] = error
         self._save()
-
-def TEMP_DEBUG(data, how="pprint"):
-    if how == "json":
-        data_str = json.dumps(data, indent=4)
-        logger.debug("JSON DUMP", line=True)
-        logger.debug(data_str)
-    elif how == "yaml":
-        data_str = pyaml.dump(data)
-        logger.debug("YAML DUMP", line=True)
-        logger.debug(data_str)
-    else:
-        import pprint
-        data_str = pprint.pformat(data)
-        logger.debug("PPRINT", line=True)
-        logger.debug(data_str)
 
 class ServiceConfig:
 
@@ -156,7 +124,6 @@ class ServiceConfig:
             ])
             self._distinct_tagged_images.append(tagged_image)
         self._distinct_tagged_images = set(self._distinct_tagged_images)
-        TEMP_DEBUG(self._distinct_tagged_images)
 
     def _save(self):
         with open(self._config_location, "w") as file:
@@ -164,61 +131,124 @@ class ServiceConfig:
                 pyaml.dump(self._config)
             )
 
-class DeployedServices(JsonStore):
+    def BUILD_ALL_LATEST_IMAGE_AS_LATEST(self):
+        local_images = LocalImages()
+        services = self._config["services"]
+        for service_name, service_config in services.items():
+            repository = service_config["repository"]
+            registry = service_config["registry"]
+            GITHUB_CLONE_OR_PULL(repository)
+            local_images.BUILD(
+                REGISTRY=registry,
+                TAG="latest",
+            )
+            print("\n")
 
-    _config_location = "./LOCAL_IMAGES.json"
+    def PUSH_ALL_LATEST_IMAGE_AS_LATEST(self):
+        local_images = LocalImages()
+        services = self._config["services"]
+        for service_name, service_config in services.items():
+            repository = service_config["repository"]
+            registry = service_config["registry"]
+            local_images.PUSH(
+                REGISTRY=registry,
+                TAG="latest",
+            )
+
+    def DEPLOY_ALL_LATEST_IMAGE_TO_STAGING_AND_CLIENTS(self):
+        services = Services()
+        clients = self._config["clients"]
+        for client_name, client_config in clients.items():
+            client_services = client_config["services"]
+            for client_service_name, client_service_env_vars in client_services.items():
+                registry = self._config["services"][client_service_name]["registry"]
+                image_name = registry + ":latest"
+                service_name = "--".join([
+                    client_name,
+                    client_service_name,
+                ])
+                host_name = ".".join([
+                    client_name,
+                    client_service_name,
+                    "rowsheet.com",
+                ]) 
+                services.CREATE(
+                    IMAGE_NAME=image_name,
+                    HOST_NAME=host_name,
+                    SERVICE_NAME=service_name,
+                    ENV_VARS=client_service_env_vars,
+                    COMMON_SERVICE_NAME=client_service_name,
+                    CLIENT_NAME=client_name,
+                )
+
+def GITHUB_CLONE_OR_PULL(repository):
+    logger.debug("Cloning or pulling repository '%s'" % repository)
+    logger.warning("git clone %s" % repository)
+
+class Services(JsonStore):
+
+    _config_location = "./SERVICES.json"
 
     def __init__(self):
         super(self.__class__, self).__init__()
 
-    def BUILD(self, REPOSITORY=None, TAG=None):
+    def CREATE(self,
+            IMAGE_NAME=None,
+            HOST_NAME=None,
+            SERVICE_NAME=None,
+            ENV_VARS=None,
+            COMMON_SERVICE_NAME=None,
+            CLIENT_NAME=None, 
+        ):
+        logger.debug("Creating service '%s' for client '%s'" % (
+            COMMON_SERVICE_NAME,CLIENT_NAME))
+        logger.warning("\tIMAGE_NAME: %s" % IMAGE_NAME)
+        logger.warning("\tHOST_NAME: %s" % HOST_NAME)
+        logger.warning("\tSERVICE_NAME: %s" % SERVICE_NAME)
+        logger.warning("\tENV_VARS: %s" % ENV_VARS)
+        logger.warning("\tCOMMON_SERVICE_NAME: %s" % COMMON_SERVICE_NAME)
+        logger.warning("\tCLIENT_NAME: %s" % CLIENT_NAME)
 
-        image_id = REPOSITORY + ":" + TAG
-        error = False
-
-        self._data[image_id] = error
-
+        info_dict = {
+            "IMAGE_NAME": IMAGE_NAME,
+            "HOST_NAME": HOST_NAME,
+            "SERVICE_NAME": SERVICE_NAME,
+            "ENV_VARS": ENV_VARS,
+            "COMMON_SERVICE_NAME": COMMON_SERVICE_NAME,
+            "CLIENT_NAME": CLIENT_NAME,
+        }
+        self._data[SERVICE_NAME] = info_dict
         self._save()
 
-    def PUSH(self, REPOSITORY=None, TAG=None):
+    def PUSH(self, REGISTRY=None, TAG=None):
 
-        image_id = REPOSITORY + ":" + TAG
-
-service_config = ServiceConfig()
-# service_config._dump()
-# service_config._save()
+        image_guid = REGISTRY + ":" + TAG
 
 #-------------------------------------------------------------------------------
 # Step 0) Nothing is deployed anywhere.
 #-------------------------------------------------------------------------------
 
-# def DEPLOY_FROM_CONFIG():
-#     service_config = ServiceConfig()
+service_config = ServiceConfig()
 
 #-------------------------------------------------------------------------------
 # Step 1) “Latest” image built from last master commit ID (from commit_A)
 #-------------------------------------------------------------------------------
 
-def BUILD_LATEST_IMAGE_AS_LATEST():
-    # git clone origin master
-    # docker build -t image:latest ./path/
-    pass
+service_config.BUILD_ALL_LATEST_IMAGE_AS_LATEST()
 
-"""
 #-------------------------------------------------------------------------------
 # Step 2) “Latest” image pushed to dockerhub (from commit_A)
 #-------------------------------------------------------------------------------
 
-def PUSH_LATEST_IMAGE_AS_LATEST(
+service_config.PUSH_ALL_LATEST_IMAGE_AS_LATEST()
 
 #-------------------------------------------------------------------------------
 # Step 3) “Latest” image deployed to staging and vendor(s). Version routers point to “latest”.
 #-------------------------------------------------------------------------------
 
-def DEPLOY_LATEST_IMAGE_TO_STAGING(
+service_config.DEPLOY_ALL_LATEST_IMAGE_TO_STAGING_AND_CLIENTS()
 
-def DEPLOY_LATEST_IMAGE_TO_CLIENT(
-    CLIENT_NAME,
+"""
 
 #-------------------------------------------------------------------------------
 # Step 4) A new master branch is pushed to Github. This is detected with a registered web-hook.
@@ -226,6 +256,10 @@ def DEPLOY_LATEST_IMAGE_TO_CLIENT(
 
 def DETENCT_NOVEL_RELEASE_TAG(
     GIT_RELEASE_TAG,
+
+"""
+
+"""
 
 #-------------------------------------------------------------------------------
 # Step 5) The last “latest” image is tagged as “commit_A”, representing the codebase version it was running.

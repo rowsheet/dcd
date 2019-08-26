@@ -1,5 +1,6 @@
 import json
 from os import path
+import docker
 
 from rs_utils import logger
 import config
@@ -20,7 +21,7 @@ class Services(JsonStore):
             IMAGE_NAME=None,
             HOST_NAME=None,
             SERVICE_NAME=None,
-            ENV_VARS=None,
+            ENV_VARS=[],
             COMMON_SERVICE_NAME=None,
             CLIENT_NAME=None, 
         ):
@@ -41,6 +42,32 @@ class Services(JsonStore):
             "COMMON_SERVICE_NAME": COMMON_SERVICE_NAME,
             "CLIENT_NAME": CLIENT_NAME,
         }
+
+        NETWORKS = [
+            "traefik-net",
+        ]
+        LABELS = {
+            "traefik.enable": "true",
+            "traefik.port": "80",
+            "traefik.frontend.rule": "Host:%s" % HOST_NAME,
+        }
+
+        try:
+            client = docker.from_env()
+            client.services.create(
+                image = IMAGE_NAME,
+                networks = NETWORKS,
+                labels = LABELS,
+                name = SERVICE_NAME,
+                env = ENV_VARS,
+            )
+            logger.success("Successfully created service '%s'" % SERVICE_NAME)
+        except Exception as ex:
+            logger.error("Failed to create service '%s': %s" % (
+                SERVICE_NAME,
+                str(es),
+            ))
+
         self._data[SERVICE_NAME] = info_dict
         self._save()
 

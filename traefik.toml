@@ -1,0 +1,49 @@
+defaultEntryPoints = ["http", "https"]
+logLevel = "INFO"
+sendAnonymousUsage = false 
+
+[docker]
+  endpoint = "unix:///var/run/docker.sock"
+  exposedByDefault = true
+  watch = true
+  domain = "traefik"
+  swarmMode = true
+  network = "traefik-net"
+
+[api]
+dashboard = true
+entrypoint = "dashboard"
+
+[entryPoints]
+  [entryPoints.http]
+  address = ":80"
+
+    [entryPoints.http.redirect]
+    entryPoint = "https"
+
+  [entryPoints.https]
+  address = ":443"
+    [entryPoints.https.tls]
+
+  [entryPoints.dashboard]
+  address = ":8080"
+    [entryPoints.dashboard.auth.basic]
+    users = ["akleinhans:$2y$05$V0cu.hpqzNsn0HtMV8h15ezn08Xp5ZTOIVpfQukfVnnF2/./IjC9O"]
+
+[acme]
+acmeLogging = true
+email = "rowsheet.com@gmail.com"
+storage = "/acme.json"
+
+# CA server to use.
+# caServer = "https://acme-staging-v02.api.letsencrypt.org/directory"
+
+onHostRule = true
+
+entryPoint = "https"
+
+[acme.httpChallenge]
+entryPoint = "http"
+
+# [[acme.domains]]
+#   main = "multitool.wbitt.com"

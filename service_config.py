@@ -25,10 +25,16 @@ class ServiceConfig:
     def __init__(self):
         self._load()
 
+    #---------------------------------------------------------------------------
+    # INITIALIZATION
+    #---------------------------------------------------------------------------
+
+    """
     def _dump(self):
         logger.debug("Service Config", line=True)
         config_str = pyaml.dump(self._config)
         logger.debug(config_str)
+    """
 
     def _load(self):
         with open(self._config_location, "r") as file:
@@ -99,6 +105,15 @@ class ServiceConfig:
             return
         os.system("rm %s" % backup_config_filepath)
 
+    #---------------------------------------------------------------------------
+    # LAUNCH_FROM_CONFIG 
+    #---------------------------------------------------------------------------
+
+    def LAUNCH_FROM_CONFIG(self):
+        self.DEPLOY_ALL_LATEST_IMAGE_TO_STAGING_AND_PRODUCTION()
+        self.PUSH_ALL_LATEST_IMAGE_AS_LATEST()
+        self.BUILD_ALL_LATEST_IMAGE_AS_LATEST()
+
     def BUILD_ALL_LATEST_IMAGE_AS_LATEST(self):
         local_images = LocalImages()
         services = self._config["services"]
@@ -124,21 +139,7 @@ class ServiceConfig:
                 TAG="latest",
             )
 
-    def _build_docker_service_name(self, client_name, service_subdomain, tldn):
-        return ("%s--%s--%s" % (
-            service_subdomain,
-            client_name,
-            tldn.replace(".","--dot--"),
-        )).replace("_","-").replace(".","--").replace(" ","").strip("--").lower()
-
-    def _build_hostname(self, client_name, service_subdomain, tldn):
-        return ("%s.%s.%s" % (
-            service_subdomain,
-            client_name,
-            tldn,
-        )).replace("_","-").replace(" ","").replace("..",".").strip(".").lower()
-
-    def DEPLOY_ALL_LATEST_IMAGE_TO_STAGING_AND_CLIENTS(self):
+    def DEPLOY_ALL_LATEST_IMAGE_TO_STAGING_AND_PRODUCTION(self):
         services = Services()
         clients = self._config["clients"]
         for client_name, client_config in clients.items():
@@ -169,6 +170,244 @@ class ServiceConfig:
                     COMMON_SERVICE_NAME=client_service_name,
                     CLIENT_NAME=client_name,
                 )
+
+    #---------------------------------------------------------------------------
+    # DETENCT_NOVEL_RELEASE_TAG
+    #---------------------------------------------------------------------------
+
+    def DETENCT_NOVEL_RELEASE_TAG(self, repository, novel_tag):
+        self.DEPLOY_NOVEL_IMAGE_TO_STAGING(repository, novel_tag)
+        self.BUILD_NOVEL_IMAGE_AS_NOVEL_TAG(repository, novel_tag)
+        self.MARK_PRODUCTION_CONFIG_AS_LAGGING_IMAGE(repository)
+        self.MARK_STAGING_CONFIG_AS_LAGGING_IMAGE(repository)
+        self.TAG_AND_PUSH_LATEST_IMAGE_AS_LAGGING_RELEASE(repository)
+
+    def TAG_AND_PUSH_LATEST_IMAGE_AS_LAGGING_RELEASE(self, repository):
+        # self._github_clone(repository)
+        last_tag = self._get_last_tag(repository)
+        registry = self._get_registry(repository)
+
+        local_images = LocalImages()
+
+        local_images.TAG(
+            REGISTRY=registry,
+            TAG_FROM="latest",
+            TAG_TO=last_tag,
+        )
+
+        local_images.PUSH(
+            REGISTRY=registry,
+            TAG=last_tag,
+        )
+
+    def MARK_STAGING_CONFIG_AS_LAGGING_IMAGE(self, repository):
+        service_name = self._get_service_name(repository)
+        last_tag = self._get_last_tag(repository)
+
+        self._config["services"][service_name]["version_status"]["stage"] = last_tag
+        self._save()
+
+    def MARK_PRODUCTION_CONFIG_AS_LAGGING_IMAGE(self, repository):
+        service_name = self._get_service_name(repository)
+        last_tag = self._get_last_tag(repository)
+
+        self._config["services"][service_name]["version_status"]["prod"] = last_tag
+        self._save()
+
+    def BUILD_NOVEL_IMAGE_AS_NOVEL_TAG(self, repository, novel_tag):
+        repo_name = self._build_repo_name(repository)
+        repo_path = self._build_repo_path(repository)
+        registry = self._get_registry(repository)
+
+        self._github_clone(repository)
+        response = runner.step(
+            "cd %s && git checkout %s" % (repo_path, novel_tag),
+            "Checking out tag '%s' for repo '%s'" % (novel_tag, repo_name),
+        )
+        if response.ERROR == True:
+            raise Exception("Error checking out tag '%s' for repo '%s'" % (
+                novel_tag,
+                repo_name,
+            ))
+
+        local_images = LocalImages()
+        local_images.BUILD(
+            REPOSITORY=repository,
+            REGISTRY=registry,
+            TAG=novel_tag,
+        )
+        print("\n")
+
+    def DEPLOY_NOVEL_IMAGE_TO_STAGING(self, repository, novel_tag):
+        registry = self._get_registry(repository)
+        service_name = self._get_service_name(repository)
+
+        staging_clients_with_service = {}
+        stating_client_names_with_service = self._get_staging_clients_with_service(service_name)
+        for client_name in stating_client_names_with_service:
+            service_subdomain = self._config["services"][service_name]["service_subdomain"]
+            tldn = self._config["services"][service_name]["tldn"]
+            client_service_name = self._build_docker_service_name(
+                client_name,
+                service_subdomain,
+                tldn,
+            )
+            novel_image_guid = registry + ":" + novel_tag
+            host_name = self._build_hostname(
+                client_name,
+                service_subdomain,
+                tldn,
+            )
+            client_service_env_vars = client_services[service_name]
+            staging_client_service_info = {
+                "IMAGE_NAME": novel_image_guid,
+                "HOST_NAME": host_name,
+                "SERVICE_NAME": client_service_name,
+                "ENV_VARS": client_service_env_vars,
+                "COMMON_SERVICE_NAME": service_name,
+                "CLIENT_NAME": client_name,
+            }
+            staging_clients_with_service[client_name] = staging_client_service_info
+
+        services = Services()
+        for staging_client_name, config in staging_clients_with_service.items():
+            services.UPGRADE(**config)
+
+    #---------------------------------------------------------------------------
+    # PASS_STAGING
+    #---------------------------------------------------------------------------
+
+    def PASS_STAGING(self, repository, novel_tag):
+        self.PUSH_NOVEL_IMAGE_AS_NOVEL_TAG(repository, novel_tag)
+        self.MARK_STAGING_CONFIG_AS_NOVEL_IMAGE(repository, novel_tag)
+        self.DEPLOY_NOVEL_IMAGE_TO_PRODUCTION(repository, novel_tag)
+        self.MARK_PRODUCTION_CONFIG_AS_NOVEL_IMAGE(repository, novel_tag)
+        self.TAG_AND_PUSH_NOVEL_IMAGE_AS_LATEST(repository, novel_tag)
+        self.MARK_STAGING_CONFIG_AS_LATEST(repository)
+        self.MARK_PRODUCTION_CONFIG_AS_LATEST(repository)
+        self.MARK_STAGING_SERVICES_PASSED(repository, novel_tag)
+
+    def PUSH_NOVEL_IMAGE_AS_NOVEL_TAG(self, repository, novel_tag):
+        registry = self._get_registry(repository)
+
+        local_images = LocalImages()
+
+        local_images.PUSH(
+            REGISTRY=registry,
+            TAG=novel_tag,
+        )
+
+    def MARK_STAGING_CONFIG_AS_NOVEL_IMAGE(self, repository, novel_tag):
+        service_name = self._get_service_name(repository)
+
+        self._config["services"][service_name]["version_status"]["stage"] = novel_tag
+        self._save()
+
+    def DEPLOY_NOVEL_IMAGE_TO_PRODUCTION(self, repository, novel_tag):
+        registry = self._get_registry(repository)
+        service_name = self._get_service_name(repository)
+
+        prod_clients_with_service = {}
+        stating_client_names_with_service = self._get_production_clients_with_service(service_name)
+        for client_name in stating_client_names_with_service:
+            service_subdomain = self._config["services"][service_name]["service_subdomain"]
+            tldn = self._config["services"][service_name]["tldn"]
+            client_service_name = self._build_docker_service_name(
+                client_name,
+                service_subdomain,
+                tldn,
+            )
+            novel_image_guid = registry + ":" + novel_tag
+            host_name = self._build_hostname(
+                client_name,
+                service_subdomain,
+                tldn,
+            )
+            client_service_env_vars = client_services[service_name]
+            prod_client_service_info = {
+                "IMAGE_NAME": novel_image_guid,
+                "HOST_NAME": host_name,
+                "SERVICE_NAME": client_service_name,
+                "ENV_VARS": client_service_env_vars,
+                "COMMON_SERVICE_NAME": service_name,
+                "CLIENT_NAME": client_name,
+            }
+            prod_clients_with_service[client_name] = prod_client_service_info
+
+        services = Services()
+        for prod_client_name, config in prod_clients_with_service.items():
+            config["TEST_STATUS"] = "NOT_IN_TEST"
+            services.UPGRADE(**config)
+
+    def MARK_PRODUCTION_CONFIG_AS_NOVEL_IMAGE(self, repository, novel_tag):
+        service_name = self._get_service_name(repository)
+
+        self._config["services"][service_name]["version_status"]["prod"] = novel_tag
+        self._save()
+
+    def TAG_AND_PUSH_NOVEL_IMAGE_AS_LATEST(self, repository, novel_tag):
+        # self._github_clone(repository)
+        registry = self._get_registry(repository)
+
+        local_images = LocalImages()
+
+        local_images.TAG(
+            REGISTRY=registry,
+            TAG_FROM=novel_tag,
+            TAG_TO="latest",
+        )
+
+        local_images.PUSH(
+            REGISTRY=registry,
+            TAG="latest",
+        )
+
+    def MARK_STAGING_CONFIG_AS_LATEST(self, repository):
+        service_name = self._get_service_name(repository)
+
+        self._config["services"][service_name]["version_status"]["stage"] = "latest"
+        self._save()
+
+    def MARK_PRODUCTION_CONFIG_AS_LATEST(self, repository):
+        service_name = self._get_service_name(repository)
+
+        self._config["services"][service_name]["version_status"]["prod"] = "latest"
+        self._save()
+
+    def MARK_STAGING_SERVICES_PASSED(self, repository, novel_tag):
+        service_name = self._get_service_name(repository)
+        staging_clients_with_service = self._get_staging_clients_with_service(service_name)
+        logger.warning(staging_clients_with_service)
+        services = Services()
+        for client_name in staging_clients_with_service:
+            service_subdomain = self._config["services"][service_name]["service_subdomain"]
+            tldn = self._config["services"][service_name]["tldn"]
+            client_service_name = self._build_docker_service_name(
+                client_name,
+                service_subdomain,
+                tldn,
+            )
+            services.MARK_TEST_PASSED(
+                SERVICE_NAME=client_service_name,
+            )
+
+    #---------------------------------------------------------------------------
+    # Helper Methods
+    #---------------------------------------------------------------------------
+
+    def _build_docker_service_name(self, client_name, service_subdomain, tldn):
+        return ("%s--%s--%s" % (
+            service_subdomain,
+            client_name,
+            tldn.replace(".","--dot--"),
+        )).replace("_","-").replace(".","--").replace(" ","").strip("--").lower()
+
+    def _build_hostname(self, client_name, service_subdomain, tldn):
+        return ("%s.%s.%s" % (
+            service_subdomain,
+            client_name,
+            tldn,
+        )).replace("_","-").replace(" ","").replace("..",".").strip(".").lower()
 
     def _build_repo_path(self, repository):
         repo_name = self._build_repo_name(repository)
@@ -211,44 +450,31 @@ class ServiceConfig:
         registry = target_service["registry"]
         return registry
 
-    def TAG_AND_PUSH_LATEST_IMAGE_AS_LAGGING_RELEASE(self, repository):
-        self._github_clone(repository)
-        last_tag = self._get_last_tag(repository)
-        registry = self._get_registry(repository)
+    def _get_service_name(self, repository):
+        target_service_name = None
+        for service_name, service in self._config["services"].items():
+            if service["repository"] == repository:
+                target_service_name = service_name
+                break
+        return target_service_name
 
-        image_guid_from = registry + ":latest"
-        image_guid_to = registry + ":" + last_tag
+    def _get_production_clients_with_service(self, service_name):
+        client_names = []
+        for client_name, client in self._config["clients"].items():
+            if client["type"] == "prod":
+                client_services = client["services"]
+                if service_name in client_services:
+                    client_names.append(client_name)
+        return client_names
 
-        cmd = "docker tag %s %s" % (
-            image_guid_from,
-            image_guid_to,
-        )
-        response = runner.step(
-            cmd,
-            "Tagging image '%s' with lagging release '%s'" % (
-                registry,
-                last_tag,
-            ),
-            stdout_log = False,
-        )
-        if response.ERROR == True:
-            raise Exception("Error tagging image with lagging relase: %s" %
-                response.STDERR)
-
-        cmd = "docker push %s" % image_guid_to
-        response = runner.step(
-            cmd,
-            "Pushing image '%s' with lagging release '%s'" % (
-                registry,
-                last_tag,
-            ),
-            stdout_log = False,
-        )
-        if response.ERROR == True:
-            raise Exception("Error pushing lagging relase image '%s': %s" % (
-                image_guid_to,
-                response.STDERR,
-            ))
+    def _get_staging_clients_with_service(self, service_name):
+        client_names = []
+        for client_name, client in self._config["clients"].items():
+            if client["type"] == "staging":
+                client_services = client["services"]
+                if service_name in client_services:
+                    client_names.append(client_name)
+        return client_names
 
     def _github_clone(self, repository):
         repo_name = self._build_repo_name(repository)

@@ -36,6 +36,29 @@ class LocalImages(JsonStore):
         new_status["history"] = history
         self._data[image_guid] = new_status
 
+    def TAG(self, REGISTRY=None, TAG_FROM=None, TAG_TO=None):
+        image_guid_from = REGISTRY + ":" + TAG_FROM
+        image_guid_to = REGISTRY + ":" + TAG_TO
+
+        cmd = "docker tag %s %s" % (
+            image_guid_from,
+            image_guid_to,
+        )
+        response = runner.step(
+            cmd,
+            "Tagging image '%s' with lagging release '%s'" % (
+                REGISTRY,
+                TAG_TO,
+            ),
+            stdout_log = False,
+        )
+        image_guid = self._image_guid(
+            REGISTRY=REGISTRY,
+            TAG=TAG_TO,
+        )
+        self._mark_image_action_response(image_guid, response, "TAG")
+        self._save()
+
     def BUILD(self, REPOSITORY=None, REGISTRY=None, TAG=None):
         repo_name = REPOSITORY.split("/")[1].split(".")[0]
         repo_path = os.path.join(config.DCD_SERVICES_DIR(), repo_name)

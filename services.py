@@ -26,13 +26,63 @@ class Services(JsonStore):
             service = client.services.get(id)
             service.remove()
 
-    def CREATE(self,
+    def MARK_TEST_PASSED(self, SERVICE_NAME=None):
+        self._data[SERVICE_NAME]["TEST_STATUS"] = "TEST_PASSED"
+        self._save()
+
+    def UPGRADE(self,
             IMAGE_NAME=None,
             HOST_NAME=None,
             SERVICE_NAME=None,
             ENV_VARS={},
             COMMON_SERVICE_NAME=None,
             CLIENT_NAME=None, 
+            TEST_STATUS="WAITING_APPROVAL",
+        ):
+        logger.debug("Upgrading service '%s' for client '%s'" % (
+            COMMON_SERVICE_NAME,CLIENT_NAME))
+        logger.warning("\tIMAGE_NAME: %s" % IMAGE_NAME)
+        logger.warning("\tHOST_NAME: %s" % HOST_NAME)
+        logger.warning("\tSERVICE_NAME: %s" % SERVICE_NAME)
+        logger.warning("\tENV_VARS: %s" % ENV_VARS)
+        logger.warning("\tCOMMON_SERVICE_NAME: %s" % COMMON_SERVICE_NAME)
+        logger.warning("\tCLIENT_NAME: %s" % CLIENT_NAME)
+        logger.warning("\tTEST_STATUS: %s" % TEST_STATUS)
+
+        info_dict = {
+            "IMAGE_NAME": IMAGE_NAME,
+            "HOST_NAME": HOST_NAME,
+            "SERVICE_NAME": SERVICE_NAME,
+            "ENV_VARS": ENV_VARS,
+            "COMMON_SERVICE_NAME": COMMON_SERVICE_NAME,
+            "CLIENT_NAME": CLIENT_NAME,
+            "TEST_STATUS": TEST_STATUS,
+        }
+
+        logger.confirm_continue()
+
+        client = docker.from_env()
+        services = client.services.list(filters={"name": SERVICE_NAME})
+        if len(services) > 0:
+            services[0].remove()
+        self.CREATE(
+            IMAGE_NAME=IMAGE_NAME,
+            HOST_NAME=HOST_NAME,
+            SERVICE_NAME=SERVICE_NAME,
+            ENV_VARS=ENV_VARS,
+            COMMON_SERVICE_NAME=COMMON_SERVICE_NAME,
+            CLIENT_NAME=CLIENT_NAME,
+            TEST_STATUS=TEST_STATUS,
+        )
+
+    def CREATE(self,
+            IMAGE_NAME=None,
+            HOST_NAME=None,
+            SERVICE_NAME=None,
+            ENV_VARS={},
+            COMMON_SERVICE_NAME=None,
+            CLIENT_NAME=None,
+            TEST_STATUS="NOT_IN_TEST",
         ):
         logger.debug("Creating service '%s' for client '%s'" % (
             COMMON_SERVICE_NAME,CLIENT_NAME))
@@ -42,6 +92,7 @@ class Services(JsonStore):
         logger.warning("\tENV_VARS: %s" % ENV_VARS)
         logger.warning("\tCOMMON_SERVICE_NAME: %s" % COMMON_SERVICE_NAME)
         logger.warning("\tCLIENT_NAME: %s" % CLIENT_NAME)
+        logger.warning("\tTEST_STATUS: %s" % TEST_STATUS)
 
         info_dict = {
             "IMAGE_NAME": IMAGE_NAME,
@@ -50,6 +101,7 @@ class Services(JsonStore):
             "ENV_VARS": ENV_VARS,
             "COMMON_SERVICE_NAME": COMMON_SERVICE_NAME,
             "CLIENT_NAME": CLIENT_NAME,
+            "TEST_STATUS": TEST_STATUS,
         }
 
         NETWORKS = [
@@ -61,7 +113,7 @@ class Services(JsonStore):
             "traefik.frontend.rule": "Host:%s" % HOST_NAME,
         }
 
-        logger.confirm_continue()
+        # logger.confirm_continue()
         try:
             client = docker.from_env()
             client = client.services.create(
@@ -81,7 +133,3 @@ class Services(JsonStore):
 
         self._data[SERVICE_NAME] = info_dict
         self._save()
-
-    def PUSH(self, REGISTRY=None, TAG=None):
-
-        image_guid = REGISTRY + ":" + TAG

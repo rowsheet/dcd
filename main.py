@@ -35,7 +35,7 @@ service_config.PUSH_ALL_LATEST_IMAGE_AS_LATEST()
 # Step 3) “Latest” image deployed to staging and vendor(s). Version routers point to “latest”.
 #-------------------------------------------------------------------------------
 
-service_config.DEPLOY_ALL_LATEST_IMAGE_TO_STAGING_AND_CLIENTS()
+service_config.DEPLOY_ALL_LATEST_IMAGE_TO_STAGING_AND_PRODUCTION()
 
 
 #-------------------------------------------------------------------------------
@@ -45,7 +45,6 @@ service_config.DEPLOY_ALL_LATEST_IMAGE_TO_STAGING_AND_CLIENTS()
 def DETENCT_NOVEL_RELEASE_TAG(
     GIT_RELEASE_TAG,
 
-"""
 
 
 #-------------------------------------------------------------------------------
@@ -55,53 +54,52 @@ def DETENCT_NOVEL_RELEASE_TAG(
 
 service_config.TAG_AND_PUSH_LATEST_IMAGE_AS_LAGGING_RELEASE("github.com:rowsheet/fake_analytics.git")
 
-"""
-
 #-------------------------------------------------------------------------------
 # Step 7) Vendor and staging configurations will be marked to use the tag “commit_A”.
 #-------------------------------------------------------------------------------
 
-def MARK_STAGING_CONFIG_AS_LAGGING_IMAGE(
-    GIT_RELEASE_TAG
+service_config.MARK_STAGING_CONFIG_AS_LAGGING_IMAGE("github.com:rowsheet/fake_analytics.git")
 
-def MARK_CLIENT_CONFIG_AS_LAGGING_IMAGE(
-    GIT_RELEASE_TAG
+service_config.MARK_PRODUCTION_CONFIG_AS_LAGGING_IMAGE("github.com:rowsheet/fake_analytics.git")
 
 #-------------------------------------------------------------------------------
 # Step 8) A new image tagged with “commit_B” will be built from the new master branch “commit_B”.
 #-------------------------------------------------------------------------------
 
-def BUILD_NOVEL_IMAGE_AS_NOVEL_TAG(
-    GIT_RELEASE_TAG
+service_config.BUILD_NOVEL_IMAGE_AS_NOVEL_TAG(
+    "github.com:rowsheet/fake_analytics.git",
+    "v0.0.4",
+)
 
 #-------------------------------------------------------------------------------
 # Step 9) The new image tagged “commit_B” will be deployed to staging.
 #-------------------------------------------------------------------------------
 
-def DEPLOY_NOVEL_IMAGE_TO_STAGING(
-    GIT_RELEASE_TAG
+service_config.DEPLOY_NOVEL_IMAGE_TO_STAGING(
+    "github.com:rowsheet/fake_analytics.git",
+    "v0.0.4",
+)
 
 #-------------------------------------------------------------------------------
 # Step 11) Staging will be tested and either marked as 1) accepted or 2) rejected.
 #-------------------------------------------------------------------------------
 
 def FAIL_STAGING(
+"""
 
-def PASS_STAGING(
+service_config.PASS_STAGING(
+    "github.com:rowsheet/fake_analytics.git",
+    "v0.0.4",
+)
 
 #-------------------------------------------------------------------------------
 # Step 12) If accepted, 1) the image tagged “commit_B” will be pushed to dockerhub. 
 #-------------------------------------------------------------------------------
 
-def PUSH_NOVEL_IMAGE_AS_NOVEL_TAG(
-    GIT_RELEASE_TAG
+# def PUSH_NOVEL_IMAGE_AS_NOVEL_TAG(
+#     GIT_RELEASE_TAG
 
-#-------------------------------------------------------------------------------
-# Step 13) If accepted, 2) the old staging image tagged “latest” is shut down.
-#-------------------------------------------------------------------------------
-
-def SHUTDOWN_STAGING_LATEST_IMAGE(
-
+"""
 #-------------------------------------------------------------------------------
 # Step 14) If accepted, 3) the staging configuration will be marked to use the image tagged with “commit_B”.
 #-------------------------------------------------------------------------------
@@ -113,33 +111,28 @@ def MARK_STAGING_CONFIG_AS_NOVEL_IMAGE(
 # Step 15) If accepted, 4) the new image tagged “commit_B” will be deployed to vendors.
 #-------------------------------------------------------------------------------
 
-def DEPLOY_NOVEL_IMAGE_TO_CLIENT(
+def DEPLOY_NOVEL_IMAGE_TO_PRODUCTION(
 
 #-------------------------------------------------------------------------------
 # Step 16) If accepted, 5) The version router on vendors will be set to point to the container tagged as “commit_B”.
 #-------------------------------------------------------------------------------
 
-def SHUTDOWN_CLIENT_LATEST_IMAGE(
+def REMOVE_LATEST_IMAGE(
 
 #-------------------------------------------------------------------------------
 # Step 17) If accepted, 6) the staging configuration will be marked to use the image tagged with “commit_B”.
 #-------------------------------------------------------------------------------
 
-def MARK_CLIENT_CONFIG_AS_NOVEL_IMAGE(
+def MARK_PRODUCTION_CONFIG_AS_NOVEL_IMAGE(
     GIT_RELEASE_TAG
 
 #-------------------------------------------------------------------------------
 # Step 18) If accepted and all vendors upgraded, the image tagged “commit_B” is tagged as “latest”.
-#-------------------------------------------------------------------------------
-
-def TAG_NOVEL_IMAGE_LATEST(
-    GIT_RELEASE_TAG
-
-#-------------------------------------------------------------------------------
 # Step 19) If accepted and the “latest” image is now from “commit_B”, the “latest” image is pushed to dockerhub.
 #-------------------------------------------------------------------------------
 
-def PUSH_LATEST_IMAGE(
+def TAG_AND_PUSH_NOVEL_IMAGE_AS_LATEST(
+    GIT_RELEASE_TAG
 
 #-------------------------------------------------------------------------------
 # Step 20) If accepted and the “latest” image has been pushed, staging and vendor configurations are marked to use “latest”.
@@ -147,5 +140,5 @@ def PUSH_LATEST_IMAGE(
 
 def MARK_STAGING_CONFIG_AS_LATEST_IMAGE(
 
-def MARK_CLIENT_CONFIG_AS_LATEST_IMAGE(
+def MARK_PRODUCTION_CONFIG_AS_LATEST_IMAGE(
 """

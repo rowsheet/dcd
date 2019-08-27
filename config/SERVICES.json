@@ -1,1558 +1,402 @@
 {
     "store--baz--rowsheet--dot--com": {
         "IMAGE_NAME": "rowsheet/fake_ecommerce:latest",
-        "CLIENT_NAME": "baz",
         "ENV_VARS": {
+            "PORT": 8000,
             "MAX_PRODUCTS": 3000,
-            "PERCENT_FEE": 4,
             "SITE_NAME": "Baz Storefront",
-            "PORT": 8000
+            "PERCENT_FEE": 4
         },
-        "COMMON_SERVICE_NAME": "fake_ecommerce",
         "HOST_NAME": "store.baz.rowsheet.com",
-        "SERVICE_NAME": "store--baz--rowsheet--dot--com"
-    },
-    "staging_plus--db_proxy": {
-        "SERVICE_NAME": "staging_plus--db_proxy",
-        "IMAGE_NAME": "rowsheet/db_proxy:latest",
-        "ENV_VARS": {
-            "DB_USER": "staging_plus_db_user",
-            "DB_NAME": "staging_plus_db_name",
-            "DB_PASS": "staging_plus_db_pass",
-            "DB_HOST": "staging_plus_db_host"
-        },
-        "COMMON_SERVICE_NAME": "db_proxy",
-        "HOST_NAME": "staging_plus.db_proxy.rowsheet.com",
-        "CLIENT_NAME": "staging_plus"
-    },
-    "qux--ecommerce": {
-        "SERVICE_NAME": "qux--ecommerce",
-        "IMAGE_NAME": "rowsheet/ecommerce:latest",
-        "ENV_VARS": {
-            "max_products": 5000,
-            "percent_fee": 3,
-            "site_name": "Qux Storefront"
-        },
-        "COMMON_SERVICE_NAME": "ecommerce",
-        "HOST_NAME": "qux.ecommerce.rowsheet.com",
-        "CLIENT_NAME": "qux"
-    },
-    "staging_free--fake_db_proxy": {
-        "SERVICE_NAME": "staging_free--fake_db_proxy",
-        "IMAGE_NAME": "rowsheet/fake_db_proxy:latest",
-        "ENV_VARS": {
-            "DB_PASS": "staging_free_db_pass",
-            "PORT": 8000,
-            "DB_USER": "staging_free_db_user",
-            "DB_NAME": "staging_free_db_name",
-            "DB_HOST": "staging_free_db_host",
-            "DB_PORT": "staging_free_db_port"
-        },
-        "COMMON_SERVICE_NAME": "fake_db_proxy",
-        "HOST_NAME": "staging_free.fake_db_proxy.rowsheet.com",
-        "CLIENT_NAME": "staging_free"
-    },
-    "staging_premium--fake_db_proxy": {
-        "SERVICE_NAME": "staging_premium--fake_db_proxy",
-        "IMAGE_NAME": "rowsheet/fake_db_proxy:latest",
-        "ENV_VARS": {
-            "DB_PASS": "staging_premium_db_pass",
-            "PORT": 8000,
-            "DB_USER": "staging_premium_db_user",
-            "DB_NAME": "staging_premium_db_name",
-            "DB_HOST": "staging_premium_db_host",
-            "DB_PORT": "staging_premium_db_port"
-        },
-        "COMMON_SERVICE_NAME": "fake_db_proxy",
-        "HOST_NAME": "staging_premium.fake_db_proxy.rowsheet.com",
-        "CLIENT_NAME": "staging_premium"
-    },
-    "staging_plus--ecommerce": {
-        "SERVICE_NAME": "staging_plus--ecommerce",
-        "IMAGE_NAME": "rowsheet/ecommerce:latest",
-        "ENV_VARS": {
-            "max_products": 1000,
-            "percent_fee": 5,
-            "site_name": "Staging Client Plus Store"
-        },
-        "COMMON_SERVICE_NAME": "ecommerce",
-        "HOST_NAME": "staging_plus.ecommerce.rowsheet.com",
-        "CLIENT_NAME": "staging_plus"
-    },
-    "staging-free--rowsheet--dot--com": {
-        "IMAGE_NAME": "rowsheet/fake_webserver:latest",
-        "CLIENT_NAME": "staging_free",
-        "ENV_VARS": {
-            "THEME": "normal",
-            "PORT": 8000,
-            "RATE_LIMITER": 100,
-            "SITE_NAME": "Staging Client Free"
-        },
-        "COMMON_SERVICE_NAME": "fake_webserver",
-        "HOST_NAME": "staging-free.rowsheet.com",
-        "SERVICE_NAME": "staging-free--rowsheet--dot--com"
-    },
-    "staging_enterprise--db_proxy": {
-        "SERVICE_NAME": "staging_enterprise--db_proxy",
-        "IMAGE_NAME": "rowsheet/db_proxy:latest",
-        "ENV_VARS": {
-            "DB_USER": "staging_enterprise_db_user",
-            "DB_NAME": "staging_enterprise_db_name",
-            "DB_PASS": "staging_enterprise_db_pass",
-            "DB_HOST": "staging_enterprise_db_host"
-        },
-        "COMMON_SERVICE_NAME": "db_proxy",
-        "HOST_NAME": "staging_enterprise.db_proxy.rowsheet.com",
-        "CLIENT_NAME": "staging_enterprise"
-    },
-    "staging_premium--ecommerce": {
-        "SERVICE_NAME": "staging_premium--ecommerce",
-        "IMAGE_NAME": "rowsheet/ecommerce:latest",
-        "ENV_VARS": {
-            "max_products": 3000,
-            "percent_fee": 4,
-            "site_name": "Staging Client Premium Store"
-        },
-        "COMMON_SERVICE_NAME": "ecommerce",
-        "HOST_NAME": "staging_premium.ecommerce.rowsheet.com",
-        "CLIENT_NAME": "staging_premium"
-    },
-    "qux--fake_db_proxy": {
-        "SERVICE_NAME": "qux--fake_db_proxy",
-        "IMAGE_NAME": "rowsheet/fake_db_proxy:latest",
-        "ENV_VARS": {
-            "DB_PASS": "qux_db_pass",
-            "PORT": 8000,
-            "DB_USER": "qux_db_user",
-            "DB_NAME": "qux_db_name",
-            "DB_HOST": "qux_db_host",
-            "DB_PORT": "qux_db_port"
-        },
-        "COMMON_SERVICE_NAME": "fake_db_proxy",
-        "HOST_NAME": "qux.fake_db_proxy.rowsheet.com",
-        "CLIENT_NAME": "qux"
-    },
-    "staging-free----rowsheet--dot--com": {
-        "SERVICE_NAME": "staging-free----rowsheet--dot--com",
-        "IMAGE_NAME": "rowsheet/fake_webserver:latest",
-        "ENV_VARS": {
-            "THEME": "normal",
-            "SITE_NAME": "Staging Client Free",
-            "RATE_LIMITER": 100,
-            "PORT": 8000
-        },
-        "COMMON_SERVICE_NAME": "fake_webserver",
-        "HOST_NAME": "staging-free.rowsheet.com",
-        "CLIENT_NAME": "staging_free"
-    },
-    "bar--rowsheet--dot--com": {
-        "IMAGE_NAME": "rowsheet/fake_webserver:latest",
-        "CLIENT_NAME": "bar",
-        "ENV_VARS": {
-            "THEME": "normal",
-            "PORT": 8000,
-            "RATE_LIMITER": 1000,
-            "SITE_NAME": "Bar"
-        },
-        "COMMON_SERVICE_NAME": "fake_webserver",
-        "HOST_NAME": "bar.rowsheet.com",
-        "SERVICE_NAME": "bar--rowsheet--dot--com"
-    },
-    "baz--ecommerce": {
-        "SERVICE_NAME": "baz--ecommerce",
-        "IMAGE_NAME": "rowsheet/ecommerce:latest",
-        "ENV_VARS": {
-            "max_products": 3000,
-            "percent_fee": 4,
-            "site_name": "Baz Storefront"
-        },
-        "COMMON_SERVICE_NAME": "ecommerce",
-        "HOST_NAME": "baz.ecommerce.rowsheet.com",
+        "TEST_STATUS": "NOT_IN_TEST",
+        "COMMON_SERVICE_NAME": "fake_ecommerce",
+        "SERVICE_NAME": "store--baz--rowsheet--dot--com",
         "CLIENT_NAME": "baz"
     },
-    "bar--fake_webserver": {
-        "SERVICE_NAME": "bar--fake_webserver",
-        "IMAGE_NAME": "rowsheet/fake_webserver:latest",
-        "ENV_VARS": {
-            "THEME": "normal",
-            "SITE_NAME": "Bar",
-            "RATE_LIMITER": 1000,
-            "PORT": 8000
-        },
-        "COMMON_SERVICE_NAME": "fake_webserver",
-        "HOST_NAME": "bar.fake_webserver.rowsheet.com",
-        "CLIENT_NAME": "bar"
-    },
-    "baz--fake_ecommerce": {
-        "SERVICE_NAME": "baz--fake_ecommerce",
-        "IMAGE_NAME": "rowsheet/fake_ecommerce:latest",
-        "ENV_VARS": {
-            "MAX_PRODUCTS": 3000,
-            "SITE_NAME": "Baz Storefront",
-            "PORT": 8000,
-            "PERCENT_FEE": 4
-        },
-        "COMMON_SERVICE_NAME": "fake_ecommerce",
-        "HOST_NAME": "baz.fake_ecommerce.rowsheet.com",
-        "CLIENT_NAME": "baz"
-    },
-    "baz----rowsheet--dot--com": {
-        "SERVICE_NAME": "baz----rowsheet--dot--com",
-        "IMAGE_NAME": "rowsheet/fake_webserver:latest",
-        "ENV_VARS": {
-            "THEME": "material",
-            "SITE_NAME": "Baz",
-            "RATE_LIMITER": 3000,
-            "PORT": 8000
-        },
-        "COMMON_SERVICE_NAME": "fake_webserver",
-        "HOST_NAME": "baz..rowsheet.com",
-        "CLIENT_NAME": "baz"
-    },
-    "baz--rowsheet--dot--com": {
-        "IMAGE_NAME": "rowsheet/fake_webserver:latest",
-        "CLIENT_NAME": "baz",
-        "ENV_VARS": {
-            "THEME": "material",
-            "PORT": 8000,
-            "RATE_LIMITER": 3000,
-            "SITE_NAME": "Baz"
-        },
-        "COMMON_SERVICE_NAME": "fake_webserver",
-        "HOST_NAME": "baz.rowsheet.com",
-        "SERVICE_NAME": "baz--rowsheet--dot--com"
-    },
-    "bar--db_proxy": {
-        "SERVICE_NAME": "bar--db_proxy",
-        "IMAGE_NAME": "rowsheet/db_proxy:latest",
-        "ENV_VARS": {
-            "DB_USER": "bar_db_user",
-            "DB_NAME": "bar_db_name",
-            "DB_PASS": "bar_db_pass",
-            "DB_HOST": "bar_db_host"
-        },
-        "COMMON_SERVICE_NAME": "db_proxy",
-        "HOST_NAME": "bar.db_proxy.rowsheet.com",
-        "CLIENT_NAME": "bar"
-    },
-    "--staging-enterprise--rowsheet--dot--com": {
-        "SERVICE_NAME": "--staging-enterprise--rowsheet--dot--com",
-        "IMAGE_NAME": "rowsheet/fake_webserver:latest",
-        "ENV_VARS": {
-            "THEME": "material",
-            "SITE_NAME": "Staging Client Enterprise",
-            "RATE_LIMITER": 3000,
-            "PORT": 8000
-        },
-        "COMMON_SERVICE_NAME": "fake_webserver",
-        "HOST_NAME": "staging-enterprise.rowsheet.com",
-        "CLIENT_NAME": "staging_enterprise"
-    },
-    "bar--db--rowsheet--dot--com": {
-        "SERVICE_NAME": "bar--db--rowsheet--dot--com",
-        "IMAGE_NAME": "rowsheet/fake_db_proxy:latest",
-        "ENV_VARS": {
-            "DB_PASS": "bar_db_pass",
-            "PORT": 8000,
-            "DB_USER": "bar_db_user",
-            "DB_NAME": "bar_db_name",
-            "DB_HOST": "bar_db_host",
-            "DB_PORT": "bar_db_port"
-        },
-        "COMMON_SERVICE_NAME": "fake_db_proxy",
-        "HOST_NAME": "bar.db.rowsheet.com",
-        "CLIENT_NAME": "bar"
-    },
-    "staging_premium--analytics": {
-        "SERVICE_NAME": "staging_premium--analytics",
-        "IMAGE_NAME": "rowsheet/analytics:latest",
-        "ENV_VARS": {
-            "api_key": "staging_premium_api_key",
-            "rate_limiter": 100
-        },
-        "COMMON_SERVICE_NAME": "analytics",
-        "HOST_NAME": "staging_premium.analytics.rowsheet.com",
-        "CLIENT_NAME": "staging_premium"
-    },
-    "--foo--rowsheet--dot--com": {
-        "SERVICE_NAME": "--foo--rowsheet--dot--com",
-        "IMAGE_NAME": "rowsheet/fake_webserver:latest",
-        "ENV_VARS": {
-            "THEME": "normal",
-            "SITE_NAME": "Foo",
-            "RATE_LIMITER": 100,
-            "PORT": 8000
-        },
-        "COMMON_SERVICE_NAME": "fake_webserver",
-        "HOST_NAME": "foo.rowsheet.com",
-        "CLIENT_NAME": "foo"
-    },
-    "bar--fake_db_proxy": {
-        "SERVICE_NAME": "bar--fake_db_proxy",
-        "IMAGE_NAME": "rowsheet/fake_db_proxy:latest",
-        "ENV_VARS": {
-            "DB_PASS": "bar_db_pass",
-            "PORT": 8000,
-            "DB_USER": "bar_db_user",
-            "DB_NAME": "bar_db_name",
-            "DB_HOST": "bar_db_host",
-            "DB_PORT": "bar_db_port"
-        },
-        "COMMON_SERVICE_NAME": "fake_db_proxy",
-        "HOST_NAME": "bar.fake_db_proxy.rowsheet.com",
-        "CLIENT_NAME": "bar"
-    },
-    "staging-premium--db--rowsheet--dot--com": {
-        "SERVICE_NAME": "staging-premium--db--rowsheet--dot--com",
-        "IMAGE_NAME": "rowsheet/fake_db_proxy:latest",
-        "ENV_VARS": {
-            "DB_PASS": "staging_premium_db_pass",
-            "PORT": 8000,
-            "DB_USER": "staging_premium_db_user",
-            "DB_NAME": "staging_premium_db_name",
-            "DB_HOST": "staging_premium_db_host",
-            "DB_PORT": "staging_premium_db_port"
-        },
-        "COMMON_SERVICE_NAME": "fake_db_proxy",
-        "HOST_NAME": "staging-premium.db.rowsheet.com",
-        "CLIENT_NAME": "staging_premium"
-    },
-    "qux--analytics": {
-        "SERVICE_NAME": "qux--analytics",
-        "IMAGE_NAME": "rowsheet/analytics:latest",
-        "ENV_VARS": {
-            "api_key": "qux_api_key",
-            "rate_limiter": 200
-        },
-        "COMMON_SERVICE_NAME": "analytics",
-        "HOST_NAME": "qux.analytics.rowsheet.com",
-        "CLIENT_NAME": "qux"
-    },
-    "bar--store--rowsheet--dot--com": {
-        "SERVICE_NAME": "bar--store--rowsheet--dot--com",
-        "IMAGE_NAME": "rowsheet/fake_ecommerce:latest",
-        "ENV_VARS": {
-            "MAX_PRODUCTS": 1000,
-            "SITE_NAME": "Bar Storefront",
-            "PORT": 8000,
-            "PERCENT_FEE": 5
-        },
-        "COMMON_SERVICE_NAME": "fake_ecommerce",
-        "HOST_NAME": "bar.store.rowsheet.com",
-        "CLIENT_NAME": "bar"
-    },
-    "foo--fake_db_proxy": {
-        "SERVICE_NAME": "foo--fake_db_proxy",
-        "IMAGE_NAME": "rowsheet/fake_db_proxy:latest",
-        "ENV_VARS": {
-            "DB_PASS": "foo_db_pass",
-            "PORT": 8000,
-            "DB_USER": "foo_db_user",
-            "DB_NAME": "foo_db_name",
-            "DB_HOST": "foo_db_host",
-            "DB_PORT": "foo_db_port"
-        },
-        "COMMON_SERVICE_NAME": "fake_db_proxy",
-        "HOST_NAME": "foo.fake_db_proxy.rowsheet.com",
-        "CLIENT_NAME": "foo"
-    },
-    "staging_free--db_proxy": {
-        "SERVICE_NAME": "staging_free--db_proxy",
-        "IMAGE_NAME": "rowsheet/db_proxy:latest",
-        "ENV_VARS": {
-            "DB_USER": "staging_free_db_user",
-            "DB_NAME": "staging_free_db_name",
-            "DB_PASS": "staging_free_db_pass",
-            "DB_HOST": "staging_free_db_host"
-        },
-        "COMMON_SERVICE_NAME": "db_proxy",
-        "HOST_NAME": "staging_free.db_proxy.rowsheet.com",
-        "CLIENT_NAME": "staging_free"
-    },
-    "staging_premium--fake_webserver": {
-        "SERVICE_NAME": "staging_premium--fake_webserver",
-        "IMAGE_NAME": "rowsheet/fake_webserver:latest",
-        "ENV_VARS": {
-            "THEME": "material",
-            "SITE_NAME": "Staging Client Premium",
-            "RATE_LIMITER": 3000,
-            "PORT": 8000
-        },
-        "COMMON_SERVICE_NAME": "fake_webserver",
-        "HOST_NAME": "staging_premium.fake_webserver.rowsheet.com",
-        "CLIENT_NAME": "staging_premium"
-    },
-    "bar--webserver": {
-        "SERVICE_NAME": "bar--webserver",
-        "IMAGE_NAME": "rowsheet/webserver:latest",
-        "ENV_VARS": {
-            "theme": "normal",
-            "rate_limiter": 1000,
-            "site_name": "Bar"
-        },
-        "COMMON_SERVICE_NAME": "webserver",
-        "HOST_NAME": "bar.webserver.rowsheet.com",
-        "CLIENT_NAME": "bar"
-    },
-    "bar--fake_ecommerce": {
-        "SERVICE_NAME": "bar--fake_ecommerce",
-        "IMAGE_NAME": "rowsheet/fake_ecommerce:latest",
-        "ENV_VARS": {
-            "MAX_PRODUCTS": 1000,
-            "SITE_NAME": "Bar Storefront",
-            "PORT": 8000,
-            "PERCENT_FEE": 5
-        },
-        "COMMON_SERVICE_NAME": "fake_ecommerce",
-        "HOST_NAME": "bar.fake_ecommerce.rowsheet.com",
-        "CLIENT_NAME": "bar"
-    },
-    "staging-plus--store--rowsheet--dot--com": {
-        "SERVICE_NAME": "staging-plus--store--rowsheet--dot--com",
-        "IMAGE_NAME": "rowsheet/fake_ecommerce:latest",
-        "ENV_VARS": {
-            "MAX_PRODUCTS": 1000,
-            "SITE_NAME": "Staging Client Plus Store",
-            "PORT": 8000,
-            "PERCENT_FEE": 5
-        },
-        "COMMON_SERVICE_NAME": "fake_ecommerce",
-        "HOST_NAME": "staging-plus.store.rowsheet.com",
-        "CLIENT_NAME": "staging_plus"
-    },
-    "staging_free--webserver": {
-        "SERVICE_NAME": "staging_free--webserver",
-        "IMAGE_NAME": "rowsheet/webserver:latest",
-        "ENV_VARS": {
-            "theme": "normal",
-            "rate_limiter": 100,
-            "site_name": "Staging Client Free"
-        },
-        "COMMON_SERVICE_NAME": "webserver",
-        "HOST_NAME": "staging_free.webserver.rowsheet.com",
-        "CLIENT_NAME": "staging_free"
-    },
-    "baz--db--rowsheet--dot--com": {
-        "SERVICE_NAME": "baz--db--rowsheet--dot--com",
-        "IMAGE_NAME": "rowsheet/fake_db_proxy:latest",
-        "ENV_VARS": {
-            "DB_PASS": "baz_db_pass",
-            "PORT": 8000,
-            "DB_USER": "baz_db_user",
-            "DB_NAME": "baz_db_name",
-            "DB_HOST": "baz_db_host",
-            "DB_PORT": "baz_db_port"
-        },
-        "COMMON_SERVICE_NAME": "fake_db_proxy",
-        "HOST_NAME": "baz.db.rowsheet.com",
-        "CLIENT_NAME": "baz"
-    },
-    "staging_premium--fake_ecommerce": {
-        "SERVICE_NAME": "staging_premium--fake_ecommerce",
-        "IMAGE_NAME": "rowsheet/fake_ecommerce:latest",
-        "ENV_VARS": {
-            "MAX_PRODUCTS": 3000,
-            "SITE_NAME": "Staging Client Premium Store",
-            "PORT": 8000,
-            "PERCENT_FEE": 4
-        },
-        "COMMON_SERVICE_NAME": "fake_ecommerce",
-        "HOST_NAME": "staging_premium.fake_ecommerce.rowsheet.com",
-        "CLIENT_NAME": "staging_premium"
-    },
-    "staging_plus--fake_db_proxy": {
-        "SERVICE_NAME": "staging_plus--fake_db_proxy",
-        "IMAGE_NAME": "rowsheet/fake_db_proxy:latest",
-        "ENV_VARS": {
-            "DB_PASS": "staging_plus_db_pass",
-            "PORT": 8000,
-            "DB_USER": "staging_plus_db_user",
-            "DB_NAME": "staging_plus_db_name",
-            "DB_HOST": "staging_plus_db_host",
-            "DB_PORT": "staging_plus_db_port"
-        },
-        "COMMON_SERVICE_NAME": "fake_db_proxy",
-        "HOST_NAME": "staging_plus.fake_db_proxy.rowsheet.com",
-        "CLIENT_NAME": "staging_plus"
-    },
-    "staging-free--db--rowsheet--dot--com": {
-        "SERVICE_NAME": "staging-free--db--rowsheet--dot--com",
-        "IMAGE_NAME": "rowsheet/fake_db_proxy:latest",
-        "ENV_VARS": {
-            "DB_PASS": "staging_free_db_pass",
-            "PORT": 8000,
-            "DB_USER": "staging_free_db_user",
-            "DB_NAME": "staging_free_db_name",
-            "DB_HOST": "staging_free_db_host",
-            "DB_PORT": "staging_free_db_port"
-        },
-        "COMMON_SERVICE_NAME": "fake_db_proxy",
-        "HOST_NAME": "staging-free.db.rowsheet.com",
-        "CLIENT_NAME": "staging_free"
-    },
-    "qux----rowsheet--dot--com": {
-        "SERVICE_NAME": "qux----rowsheet--dot--com",
-        "IMAGE_NAME": "rowsheet/fake_webserver:latest",
-        "ENV_VARS": {
-            "THEME": "material",
-            "SITE_NAME": "Qux",
-            "RATE_LIMITER": 3000,
-            "PORT": 8000
-        },
-        "COMMON_SERVICE_NAME": "fake_webserver",
-        "HOST_NAME": "qux.rowsheet.com",
-        "CLIENT_NAME": "qux"
-    },
-    "--staging-premium--rowsheet--dot--com": {
-        "SERVICE_NAME": "--staging-premium--rowsheet--dot--com",
-        "IMAGE_NAME": "rowsheet/fake_webserver:latest",
-        "ENV_VARS": {
-            "THEME": "material",
-            "SITE_NAME": "Staging Client Premium",
-            "RATE_LIMITER": 3000,
-            "PORT": 8000
-        },
-        "COMMON_SERVICE_NAME": "fake_webserver",
-        "HOST_NAME": "staging-premium.rowsheet.com",
-        "CLIENT_NAME": "staging_premium"
-    },
-    "staging_enterprise--fake_crm": {
-        "SERVICE_NAME": "staging_enterprise--fake_crm",
-        "IMAGE_NAME": "rowsheet/fake_crm:latest",
-        "ENV_VARS": {
-            "MAX_USERS": 5000,
-            "PORT": 8000
-        },
-        "COMMON_SERVICE_NAME": "fake_crm",
-        "HOST_NAME": "staging_enterprise.fake_crm.rowsheet.com",
-        "CLIENT_NAME": "staging_enterprise"
-    },
-    "staging-premium----rowsheet--dot--com": {
-        "SERVICE_NAME": "staging-premium----rowsheet--dot--com",
-        "IMAGE_NAME": "rowsheet/fake_webserver:latest",
-        "ENV_VARS": {
-            "THEME": "material",
-            "SITE_NAME": "Staging Client Premium",
-            "RATE_LIMITER": 3000,
-            "PORT": 8000
-        },
-        "COMMON_SERVICE_NAME": "fake_webserver",
-        "HOST_NAME": "staging-premium..rowsheet.com",
-        "CLIENT_NAME": "staging_premium"
-    },
-    "staging-enterprise--crm--rowsheet--dot--com": {
-        "SERVICE_NAME": "staging-enterprise--crm--rowsheet--dot--com",
-        "IMAGE_NAME": "rowsheet/fake_crm:latest",
-        "ENV_VARS": {
-            "MAX_USERS": 5000,
-            "PORT": 8000
-        },
-        "COMMON_SERVICE_NAME": "fake_crm",
-        "HOST_NAME": "staging-enterprise.crm.rowsheet.com",
-        "CLIENT_NAME": "staging_enterprise"
-    },
-    "crm--staging-enterprise--rowsheet--dot--com": {
-        "IMAGE_NAME": "rowsheet/fake_crm:latest",
-        "CLIENT_NAME": "staging_enterprise",
+    "analytics--baz--rowsheet--dot--com": {
+        "IMAGE_NAME": "rowsheet/fake_analytics:v0.0.4",
         "ENV_VARS": {
             "PORT": 8000,
-            "MAX_USERS": 5000
-        },
-        "COMMON_SERVICE_NAME": "fake_crm",
-        "HOST_NAME": "crm.staging-enterprise.rowsheet.com",
-        "SERVICE_NAME": "crm--staging-enterprise--rowsheet--dot--com"
-    },
-    "crm--qux--rowsheet--dot--com": {
-        "IMAGE_NAME": "rowsheet/fake_crm:latest",
-        "CLIENT_NAME": "qux",
-        "ENV_VARS": {
-            "PORT": 8000,
-            "MAX_USERS": 5000
-        },
-        "COMMON_SERVICE_NAME": "fake_crm",
-        "HOST_NAME": "crm.qux.rowsheet.com",
-        "SERVICE_NAME": "crm--qux--rowsheet--dot--com"
-    },
-    "baz--fake_db_proxy": {
-        "SERVICE_NAME": "baz--fake_db_proxy",
-        "IMAGE_NAME": "rowsheet/fake_db_proxy:latest",
-        "ENV_VARS": {
-            "DB_PASS": "baz_db_pass",
-            "PORT": 8000,
-            "DB_USER": "baz_db_user",
-            "DB_NAME": "baz_db_name",
-            "DB_HOST": "baz_db_host",
-            "DB_PORT": "baz_db_port"
-        },
-        "COMMON_SERVICE_NAME": "fake_db_proxy",
-        "HOST_NAME": "baz.fake_db_proxy.rowsheet.com",
-        "CLIENT_NAME": "baz"
-    },
-    "store--staging-enterprise--rowsheet--dot--com": {
-        "IMAGE_NAME": "rowsheet/fake_ecommerce:latest",
-        "CLIENT_NAME": "staging_enterprise",
-        "ENV_VARS": {
-            "MAX_PRODUCTS": 5000,
-            "PERCENT_FEE": 3,
-            "SITE_NAME": "Staging Client Enterprise Store",
-            "PORT": 8000
-        },
-        "COMMON_SERVICE_NAME": "fake_ecommerce",
-        "HOST_NAME": "store.staging-enterprise.rowsheet.com",
-        "SERVICE_NAME": "store--staging-enterprise--rowsheet--dot--com"
-    },
-    "--bar--rowsheet--dot--com": {
-        "SERVICE_NAME": "--bar--rowsheet--dot--com",
-        "IMAGE_NAME": "rowsheet/fake_webserver:latest",
-        "ENV_VARS": {
-            "THEME": "normal",
-            "SITE_NAME": "Bar",
-            "RATE_LIMITER": 1000,
-            "PORT": 8000
-        },
-        "COMMON_SERVICE_NAME": "fake_webserver",
-        "HOST_NAME": "bar.rowsheet.com",
-        "CLIENT_NAME": "bar"
-    },
-    "db--staging-enterprise--rowsheet--dot--com": {
-        "IMAGE_NAME": "rowsheet/fake_db_proxy:latest",
-        "CLIENT_NAME": "staging_enterprise",
-        "ENV_VARS": {
-            "DB_PASS": "staging_enterprise_db_pass",
-            "PORT": 8000,
-            "DB_USER": "staging_enterprise_db_user",
-            "DB_NAME": "staging_enterprise_db_name",
-            "DB_HOST": "staging_enterprise_db_host",
-            "DB_PORT": "staging_enterprise_db_port"
-        },
-        "COMMON_SERVICE_NAME": "fake_db_proxy",
-        "HOST_NAME": "db.staging-enterprise.rowsheet.com",
-        "SERVICE_NAME": "db--staging-enterprise--rowsheet--dot--com"
-    },
-    "--staging-free--rowsheet--dot--com": {
-        "SERVICE_NAME": "--staging-free--rowsheet--dot--com",
-        "IMAGE_NAME": "rowsheet/fake_webserver:latest",
-        "ENV_VARS": {
-            "THEME": "normal",
-            "SITE_NAME": "Staging Client Free",
-            "RATE_LIMITER": 100,
-            "PORT": 8000
-        },
-        "COMMON_SERVICE_NAME": "fake_webserver",
-        "HOST_NAME": "staging-free.rowsheet.com",
-        "CLIENT_NAME": "staging_free"
-    },
-    "bar--ecommerce": {
-        "SERVICE_NAME": "bar--ecommerce",
-        "IMAGE_NAME": "rowsheet/ecommerce:latest",
-        "ENV_VARS": {
-            "max_products": 1000,
-            "percent_fee": 5,
-            "site_name": "Bar Storefront"
-        },
-        "COMMON_SERVICE_NAME": "ecommerce",
-        "HOST_NAME": "bar.ecommerce.rowsheet.com",
-        "CLIENT_NAME": "bar"
-    },
-    "staging_premium--db_proxy": {
-        "SERVICE_NAME": "staging_premium--db_proxy",
-        "IMAGE_NAME": "rowsheet/db_proxy:latest",
-        "ENV_VARS": {
-            "DB_USER": "staging_premium_db_user",
-            "DB_NAME": "staging_premium_db_name",
-            "DB_PASS": "staging_premium_db_pass",
-            "DB_HOST": "staging_premium_db_host"
-        },
-        "COMMON_SERVICE_NAME": "db_proxy",
-        "HOST_NAME": "staging_premium.db_proxy.rowsheet.com",
-        "CLIENT_NAME": "staging_premium"
-    },
-    "bar----rowsheet--dot--com": {
-        "SERVICE_NAME": "bar----rowsheet--dot--com",
-        "IMAGE_NAME": "rowsheet/fake_webserver:latest",
-        "ENV_VARS": {
-            "THEME": "normal",
-            "SITE_NAME": "Bar",
-            "RATE_LIMITER": 1000,
-            "PORT": 8000
-        },
-        "COMMON_SERVICE_NAME": "fake_webserver",
-        "HOST_NAME": "bar..rowsheet.com",
-        "CLIENT_NAME": "bar"
-    },
-    "qux--webserver": {
-        "SERVICE_NAME": "qux--webserver",
-        "IMAGE_NAME": "rowsheet/webserver:latest",
-        "ENV_VARS": {
-            "theme": "material",
-            "rate_limiter": 3000,
-            "site_name": "Qux"
-        },
-        "COMMON_SERVICE_NAME": "webserver",
-        "HOST_NAME": "qux.webserver.rowsheet.com",
-        "CLIENT_NAME": "qux"
-    },
-    "foo--db--rowsheet--dot--com": {
-        "SERVICE_NAME": "foo--db--rowsheet--dot--com",
-        "IMAGE_NAME": "rowsheet/fake_db_proxy:latest",
-        "ENV_VARS": {
-            "DB_PASS": "foo_db_pass",
-            "PORT": 8000,
-            "DB_USER": "foo_db_user",
-            "DB_NAME": "foo_db_name",
-            "DB_HOST": "foo_db_host",
-            "DB_PORT": "foo_db_port"
-        },
-        "COMMON_SERVICE_NAME": "fake_db_proxy",
-        "HOST_NAME": "foo.db.rowsheet.com",
-        "CLIENT_NAME": "foo"
-    },
-    "--staging-plus--rowsheet--dot--com": {
-        "SERVICE_NAME": "--staging-plus--rowsheet--dot--com",
-        "IMAGE_NAME": "rowsheet/fake_webserver:latest",
-        "ENV_VARS": {
-            "THEME": "normal",
-            "SITE_NAME": "Staging Client Plus",
-            "RATE_LIMITER": 1000,
-            "PORT": 8000
-        },
-        "COMMON_SERVICE_NAME": "fake_webserver",
-        "HOST_NAME": "staging-plus.rowsheet.com",
-        "CLIENT_NAME": "staging_plus"
-    },
-    "qux--db--rowsheet--dot--com": {
-        "SERVICE_NAME": "qux--db--rowsheet--dot--com",
-        "IMAGE_NAME": "rowsheet/fake_db_proxy:latest",
-        "ENV_VARS": {
-            "DB_PASS": "qux_db_pass",
-            "PORT": 8000,
-            "DB_USER": "qux_db_user",
-            "DB_NAME": "qux_db_name",
-            "DB_HOST": "qux_db_host",
-            "DB_PORT": "qux_db_port"
-        },
-        "COMMON_SERVICE_NAME": "fake_db_proxy",
-        "HOST_NAME": "qux.db.rowsheet.com",
-        "CLIENT_NAME": "qux"
-    },
-    "--baz--rowsheet--dot--com": {
-        "SERVICE_NAME": "--baz--rowsheet--dot--com",
-        "IMAGE_NAME": "rowsheet/fake_webserver:latest",
-        "ENV_VARS": {
-            "THEME": "material",
-            "SITE_NAME": "Baz",
-            "RATE_LIMITER": 3000,
-            "PORT": 8000
-        },
-        "COMMON_SERVICE_NAME": "fake_webserver",
-        "HOST_NAME": "baz.rowsheet.com",
-        "CLIENT_NAME": "baz"
-    },
-    "qux--analytics--rowsheet--dot--com": {
-        "SERVICE_NAME": "qux--analytics--rowsheet--dot--com",
-        "IMAGE_NAME": "rowsheet/fake_analytics:latest",
-        "ENV_VARS": {
-            "RATE_LIMITER": 200,
-            "API_KEY": "qux_API_KEY",
-            "PORT": 8000
-        },
-        "COMMON_SERVICE_NAME": "fake_analytics",
-        "HOST_NAME": "qux.analytics.rowsheet.com",
-        "CLIENT_NAME": "qux"
-    },
-    "foo----rowsheet--dot--com": {
-        "SERVICE_NAME": "foo----rowsheet--dot--com",
-        "IMAGE_NAME": "rowsheet/fake_webserver:latest",
-        "ENV_VARS": {
-            "THEME": "normal",
-            "SITE_NAME": "Foo",
-            "RATE_LIMITER": 100,
-            "PORT": 8000
-        },
-        "COMMON_SERVICE_NAME": "fake_webserver",
-        "HOST_NAME": "foo.rowsheet.com",
-        "CLIENT_NAME": "foo"
-    },
-    "db--staging-premium--rowsheet--dot--com": {
-        "IMAGE_NAME": "rowsheet/fake_db_proxy:latest",
-        "CLIENT_NAME": "staging_premium",
-        "ENV_VARS": {
-            "DB_PASS": "staging_premium_db_pass",
-            "PORT": 8000,
-            "DB_USER": "staging_premium_db_user",
-            "DB_NAME": "staging_premium_db_name",
-            "DB_HOST": "staging_premium_db_host",
-            "DB_PORT": "staging_premium_db_port"
-        },
-        "COMMON_SERVICE_NAME": "fake_db_proxy",
-        "HOST_NAME": "db.staging-premium.rowsheet.com",
-        "SERVICE_NAME": "db--staging-premium--rowsheet--dot--com"
-    },
-    "qux--fake_crm": {
-        "SERVICE_NAME": "qux--fake_crm",
-        "IMAGE_NAME": "rowsheet/fake_crm:latest",
-        "ENV_VARS": {
-            "MAX_USERS": 5000,
-            "PORT": 8000
-        },
-        "COMMON_SERVICE_NAME": "fake_crm",
-        "HOST_NAME": "qux.fake_crm.rowsheet.com",
-        "CLIENT_NAME": "qux"
-    },
-    "qux--fake_ecommerce": {
-        "SERVICE_NAME": "qux--fake_ecommerce",
-        "IMAGE_NAME": "rowsheet/fake_ecommerce:latest",
-        "ENV_VARS": {
-            "MAX_PRODUCTS": 5000,
-            "SITE_NAME": "Qux Storefront",
-            "PORT": 8000,
-            "PERCENT_FEE": 3
-        },
-        "COMMON_SERVICE_NAME": "fake_ecommerce",
-        "HOST_NAME": "qux.fake_ecommerce.rowsheet.com",
-        "CLIENT_NAME": "qux"
-    },
-    "qux--rowsheet--dot--com": {
-        "IMAGE_NAME": "rowsheet/fake_webserver:latest",
-        "CLIENT_NAME": "qux",
-        "ENV_VARS": {
-            "THEME": "material",
-            "PORT": 8000,
-            "RATE_LIMITER": 3000,
-            "SITE_NAME": "Qux"
-        },
-        "COMMON_SERVICE_NAME": "fake_webserver",
-        "HOST_NAME": "qux.rowsheet.com",
-        "SERVICE_NAME": "qux--rowsheet--dot--com"
-    },
-    "staging-premium--store--rowsheet--dot--com": {
-        "SERVICE_NAME": "staging-premium--store--rowsheet--dot--com",
-        "IMAGE_NAME": "rowsheet/fake_ecommerce:latest",
-        "ENV_VARS": {
-            "MAX_PRODUCTS": 3000,
-            "SITE_NAME": "Staging Client Premium Store",
-            "PORT": 8000,
-            "PERCENT_FEE": 4
-        },
-        "COMMON_SERVICE_NAME": "fake_ecommerce",
-        "HOST_NAME": "staging-premium.store.rowsheet.com",
-        "CLIENT_NAME": "staging_premium"
-    },
-    "db--baz--rowsheet--dot--com": {
-        "IMAGE_NAME": "rowsheet/fake_db_proxy:latest",
-        "CLIENT_NAME": "baz",
-        "ENV_VARS": {
-            "DB_PASS": "baz_db_pass",
-            "PORT": 8000,
-            "DB_USER": "baz_db_user",
-            "DB_NAME": "baz_db_name",
-            "DB_HOST": "baz_db_host",
-            "DB_PORT": "baz_db_port"
-        },
-        "COMMON_SERVICE_NAME": "fake_db_proxy",
-        "HOST_NAME": "db.baz.rowsheet.com",
-        "SERVICE_NAME": "db--baz--rowsheet--dot--com"
-    },
-    "staging_plus--fake_ecommerce": {
-        "SERVICE_NAME": "staging_plus--fake_ecommerce",
-        "IMAGE_NAME": "rowsheet/fake_ecommerce:latest",
-        "ENV_VARS": {
-            "MAX_PRODUCTS": 1000,
-            "SITE_NAME": "Staging Client Plus Store",
-            "PORT": 8000,
-            "PERCENT_FEE": 5
-        },
-        "COMMON_SERVICE_NAME": "fake_ecommerce",
-        "HOST_NAME": "staging_plus.fake_ecommerce.rowsheet.com",
-        "CLIENT_NAME": "staging_plus"
-    },
-    "foo--webserver": {
-        "SERVICE_NAME": "foo--webserver",
-        "IMAGE_NAME": "rowsheet/webserver:latest",
-        "ENV_VARS": {
-            "theme": "normal",
-            "rate_limiter": 100,
-            "site_name": "Foo"
-        },
-        "COMMON_SERVICE_NAME": "webserver",
-        "HOST_NAME": "foo.webserver.rowsheet.com",
-        "CLIENT_NAME": "foo"
-    },
-    "store--staging-plus--rowsheet--dot--com": {
-        "IMAGE_NAME": "rowsheet/fake_ecommerce:latest",
-        "CLIENT_NAME": "staging_plus",
-        "ENV_VARS": {
-            "MAX_PRODUCTS": 1000,
-            "PERCENT_FEE": 5,
-            "SITE_NAME": "Staging Client Plus Store",
-            "PORT": 8000
-        },
-        "COMMON_SERVICE_NAME": "fake_ecommerce",
-        "HOST_NAME": "store.staging-plus.rowsheet.com",
-        "SERVICE_NAME": "store--staging-plus--rowsheet--dot--com"
-    },
-    "baz--store--rowsheet--dot--com": {
-        "SERVICE_NAME": "baz--store--rowsheet--dot--com",
-        "IMAGE_NAME": "rowsheet/fake_ecommerce:latest",
-        "ENV_VARS": {
-            "MAX_PRODUCTS": 3000,
-            "SITE_NAME": "Baz Storefront",
-            "PORT": 8000,
-            "PERCENT_FEE": 4
-        },
-        "COMMON_SERVICE_NAME": "fake_ecommerce",
-        "HOST_NAME": "baz.store.rowsheet.com",
-        "CLIENT_NAME": "baz"
-    },
-    "staging_enterprise--ecommerce": {
-        "SERVICE_NAME": "staging_enterprise--ecommerce",
-        "IMAGE_NAME": "rowsheet/ecommerce:latest",
-        "ENV_VARS": {
-            "max_products": 5000,
-            "percent_fee": 3,
-            "site_name": "Staging Client Enterprise Store"
-        },
-        "COMMON_SERVICE_NAME": "ecommerce",
-        "HOST_NAME": "staging_enterprise.ecommerce.rowsheet.com",
-        "CLIENT_NAME": "staging_enterprise"
-    },
-    "staging-enterprise--db--rowsheet--dot--com": {
-        "SERVICE_NAME": "staging-enterprise--db--rowsheet--dot--com",
-        "IMAGE_NAME": "rowsheet/fake_db_proxy:latest",
-        "ENV_VARS": {
-            "DB_PASS": "staging_enterprise_db_pass",
-            "PORT": 8000,
-            "DB_USER": "staging_enterprise_db_user",
-            "DB_NAME": "staging_enterprise_db_name",
-            "DB_HOST": "staging_enterprise_db_host",
-            "DB_PORT": "staging_enterprise_db_port"
-        },
-        "COMMON_SERVICE_NAME": "fake_db_proxy",
-        "HOST_NAME": "staging-enterprise.db.rowsheet.com",
-        "CLIENT_NAME": "staging_enterprise"
-    },
-    "staging-plus--rowsheet--dot--com": {
-        "IMAGE_NAME": "rowsheet/fake_webserver:latest",
-        "CLIENT_NAME": "staging_plus",
-        "ENV_VARS": {
-            "THEME": "normal",
-            "PORT": 8000,
-            "RATE_LIMITER": 1000,
-            "SITE_NAME": "Staging Client Plus"
-        },
-        "COMMON_SERVICE_NAME": "fake_webserver",
-        "HOST_NAME": "staging-plus.rowsheet.com",
-        "SERVICE_NAME": "staging-plus--rowsheet--dot--com"
-    },
-    "staging-plus----rowsheet--dot--com": {
-        "SERVICE_NAME": "staging-plus----rowsheet--dot--com",
-        "IMAGE_NAME": "rowsheet/fake_webserver:latest",
-        "ENV_VARS": {
-            "THEME": "normal",
-            "SITE_NAME": "Staging Client Plus",
-            "RATE_LIMITER": 1000,
-            "PORT": 8000
-        },
-        "COMMON_SERVICE_NAME": "fake_webserver",
-        "HOST_NAME": "staging-plus..rowsheet.com",
-        "CLIENT_NAME": "staging_plus"
-    },
-    "staging_free--fake_webserver": {
-        "SERVICE_NAME": "staging_free--fake_webserver",
-        "IMAGE_NAME": "rowsheet/fake_webserver:latest",
-        "ENV_VARS": {
-            "THEME": "normal",
-            "SITE_NAME": "Staging Client Free",
-            "RATE_LIMITER": 100,
-            "PORT": 8000
-        },
-        "COMMON_SERVICE_NAME": "fake_webserver",
-        "HOST_NAME": "staging_free.fake_webserver.rowsheet.com",
-        "CLIENT_NAME": "staging_free"
-    },
-    "baz--analytics": {
-        "SERVICE_NAME": "baz--analytics",
-        "IMAGE_NAME": "rowsheet/analytics:latest",
-        "ENV_VARS": {
-            "api_key": "baz_api_key",
-            "rate_limiter": 100
-        },
-        "COMMON_SERVICE_NAME": "analytics",
-        "HOST_NAME": "baz.analytics.rowsheet.com",
-        "CLIENT_NAME": "baz"
-    },
-    "staging_enterprise--analytics": {
-        "SERVICE_NAME": "staging_enterprise--analytics",
-        "IMAGE_NAME": "rowsheet/analytics:latest",
-        "ENV_VARS": {
-            "api_key": "staging_enterprise_api_key",
-            "rate_limiter": 200
-        },
-        "COMMON_SERVICE_NAME": "analytics",
-        "HOST_NAME": "staging_enterprise.analytics.rowsheet.com",
-        "CLIENT_NAME": "staging_enterprise"
-    },
-    "qux--db_proxy": {
-        "SERVICE_NAME": "qux--db_proxy",
-        "IMAGE_NAME": "rowsheet/db_proxy:latest",
-        "ENV_VARS": {
-            "DB_USER": "qux_db_user",
-            "DB_NAME": "qux_db_name",
-            "DB_PASS": "qux_db_pass",
-            "DB_HOST": "qux_db_host"
-        },
-        "COMMON_SERVICE_NAME": "db_proxy",
-        "HOST_NAME": "qux.db_proxy.rowsheet.com",
-        "CLIENT_NAME": "qux"
-    },
-    "staging-premium--analytics--rowsheet--dot--com": {
-        "SERVICE_NAME": "staging-premium--analytics--rowsheet--dot--com",
-        "IMAGE_NAME": "rowsheet/fake_analytics:latest",
-        "ENV_VARS": {
-            "RATE_LIMITER": 100,
-            "API_KEY": "staging_premium_API_KEY",
-            "PORT": 8000
-        },
-        "COMMON_SERVICE_NAME": "fake_analytics",
-        "HOST_NAME": "staging-premium.analytics.rowsheet.com",
-        "CLIENT_NAME": "staging_premium"
-    },
-    "staging_plus--fake_webserver": {
-        "SERVICE_NAME": "staging_plus--fake_webserver",
-        "IMAGE_NAME": "rowsheet/fake_webserver:latest",
-        "ENV_VARS": {
-            "THEME": "normal",
-            "SITE_NAME": "Staging Client Plus",
-            "RATE_LIMITER": 1000,
-            "PORT": 8000
-        },
-        "COMMON_SERVICE_NAME": "fake_webserver",
-        "HOST_NAME": "staging_plus.fake_webserver.rowsheet.com",
-        "CLIENT_NAME": "staging_plus"
-    },
-    "baz--analytics--rowsheet--dot--com": {
-        "SERVICE_NAME": "baz--analytics--rowsheet--dot--com",
-        "IMAGE_NAME": "rowsheet/fake_analytics:latest",
-        "ENV_VARS": {
-            "RATE_LIMITER": 100,
             "API_KEY": "baz_API_KEY",
-            "PORT": 8000
+            "RATE_LIMITER": 100
         },
+        "HOST_NAME": "analytics.baz.rowsheet.com",
+        "TEST_STATUS": "NOT_IN_TEST",
         "COMMON_SERVICE_NAME": "fake_analytics",
-        "HOST_NAME": "baz.analytics.rowsheet.com",
+        "SERVICE_NAME": "analytics--baz--rowsheet--dot--com",
         "CLIENT_NAME": "baz"
-    },
-    "staging_enterprise--crm": {
-        "SERVICE_NAME": "staging_enterprise--crm",
-        "IMAGE_NAME": "rowsheet/crm:latest",
-        "ENV_VARS": {
-            "max_users": 5000
-        },
-        "COMMON_SERVICE_NAME": "crm",
-        "HOST_NAME": "staging_enterprise.crm.rowsheet.com",
-        "CLIENT_NAME": "staging_enterprise"
-    },
-    "staging-plus--db--rowsheet--dot--com": {
-        "SERVICE_NAME": "staging-plus--db--rowsheet--dot--com",
-        "IMAGE_NAME": "rowsheet/fake_db_proxy:latest",
-        "ENV_VARS": {
-            "DB_PASS": "staging_plus_db_pass",
-            "PORT": 8000,
-            "DB_USER": "staging_plus_db_user",
-            "DB_NAME": "staging_plus_db_name",
-            "DB_HOST": "staging_plus_db_host",
-            "DB_PORT": "staging_plus_db_port"
-        },
-        "COMMON_SERVICE_NAME": "fake_db_proxy",
-        "HOST_NAME": "staging-plus.db.rowsheet.com",
-        "CLIENT_NAME": "staging_plus"
-    },
-    "analytics--qux--rowsheet--dot--com": {
-        "IMAGE_NAME": "rowsheet/fake_analytics:latest",
-        "CLIENT_NAME": "qux",
-        "ENV_VARS": {
-            "API_KEY": "qux_API_KEY",
-            "PORT": 8000,
-            "RATE_LIMITER": 200
-        },
-        "COMMON_SERVICE_NAME": "fake_analytics",
-        "HOST_NAME": "analytics.qux.rowsheet.com",
-        "SERVICE_NAME": "analytics--qux--rowsheet--dot--com"
     },
     "store--qux--rowsheet--dot--com": {
         "IMAGE_NAME": "rowsheet/fake_ecommerce:latest",
-        "CLIENT_NAME": "qux",
         "ENV_VARS": {
+            "PORT": 8000,
             "MAX_PRODUCTS": 5000,
-            "PERCENT_FEE": 3,
             "SITE_NAME": "Qux Storefront",
-            "PORT": 8000
-        },
-        "COMMON_SERVICE_NAME": "fake_ecommerce",
-        "HOST_NAME": "store.qux.rowsheet.com",
-        "SERVICE_NAME": "store--qux--rowsheet--dot--com"
-    },
-    "qux--fake_analytics": {
-        "SERVICE_NAME": "qux--fake_analytics",
-        "IMAGE_NAME": "rowsheet/fake_analytics:latest",
-        "ENV_VARS": {
-            "RATE_LIMITER": 200,
-            "API_KEY": "qux_API_KEY",
-            "PORT": 8000
-        },
-        "COMMON_SERVICE_NAME": "fake_analytics",
-        "HOST_NAME": "qux.fake_analytics.rowsheet.com",
-        "CLIENT_NAME": "qux"
-    },
-    "staging_premium--fake_analytics": {
-        "SERVICE_NAME": "staging_premium--fake_analytics",
-        "IMAGE_NAME": "rowsheet/fake_analytics:latest",
-        "ENV_VARS": {
-            "RATE_LIMITER": 100,
-            "API_KEY": "staging_premium_API_KEY",
-            "PORT": 8000
-        },
-        "COMMON_SERVICE_NAME": "fake_analytics",
-        "HOST_NAME": "staging_premium.fake_analytics.rowsheet.com",
-        "CLIENT_NAME": "staging_premium"
-    },
-    "baz--webserver": {
-        "SERVICE_NAME": "baz--webserver",
-        "IMAGE_NAME": "rowsheet/webserver:latest",
-        "ENV_VARS": {
-            "theme": "material",
-            "rate_limiter": 3000,
-            "site_name": "Baz"
-        },
-        "COMMON_SERVICE_NAME": "webserver",
-        "HOST_NAME": "baz.webserver.rowsheet.com",
-        "CLIENT_NAME": "baz"
-    },
-    "staging-enterprise--analytics--rowsheet--dot--com": {
-        "SERVICE_NAME": "staging-enterprise--analytics--rowsheet--dot--com",
-        "IMAGE_NAME": "rowsheet/fake_analytics:latest",
-        "ENV_VARS": {
-            "RATE_LIMITER": 200,
-            "API_KEY": "staging_enterprise_API_KEY",
-            "PORT": 8000
-        },
-        "COMMON_SERVICE_NAME": "fake_analytics",
-        "HOST_NAME": "staging-enterprise.analytics.rowsheet.com",
-        "CLIENT_NAME": "staging_enterprise"
-    },
-    "db--bar--rowsheet--dot--com": {
-        "IMAGE_NAME": "rowsheet/fake_db_proxy:latest",
-        "CLIENT_NAME": "bar",
-        "ENV_VARS": {
-            "DB_PASS": "bar_db_pass",
-            "PORT": 8000,
-            "DB_USER": "bar_db_user",
-            "DB_NAME": "bar_db_name",
-            "DB_HOST": "bar_db_host",
-            "DB_PORT": "bar_db_port"
-        },
-        "COMMON_SERVICE_NAME": "fake_db_proxy",
-        "HOST_NAME": "db.bar.rowsheet.com",
-        "SERVICE_NAME": "db--bar--rowsheet--dot--com"
-    },
-    "analytics--baz--rowsheet--dot--com": {
-        "IMAGE_NAME": "rowsheet/fake_analytics:latest",
-        "CLIENT_NAME": "baz",
-        "ENV_VARS": {
-            "API_KEY": "baz_API_KEY",
-            "PORT": 8000,
-            "RATE_LIMITER": 100
-        },
-        "COMMON_SERVICE_NAME": "fake_analytics",
-        "HOST_NAME": "analytics.baz.rowsheet.com",
-        "SERVICE_NAME": "analytics--baz--rowsheet--dot--com"
-    },
-    "db--staging-plus--rowsheet--dot--com": {
-        "IMAGE_NAME": "rowsheet/fake_db_proxy:latest",
-        "CLIENT_NAME": "staging_plus",
-        "ENV_VARS": {
-            "DB_PASS": "staging_plus_db_pass",
-            "PORT": 8000,
-            "DB_USER": "staging_plus_db_user",
-            "DB_NAME": "staging_plus_db_name",
-            "DB_HOST": "staging_plus_db_host",
-            "DB_PORT": "staging_plus_db_port"
-        },
-        "COMMON_SERVICE_NAME": "fake_db_proxy",
-        "HOST_NAME": "db.staging-plus.rowsheet.com",
-        "SERVICE_NAME": "db--staging-plus--rowsheet--dot--com"
-    },
-    "baz--db_proxy": {
-        "SERVICE_NAME": "baz--db_proxy",
-        "IMAGE_NAME": "rowsheet/db_proxy:latest",
-        "ENV_VARS": {
-            "DB_USER": "baz_db_user",
-            "DB_NAME": "baz_db_name",
-            "DB_PASS": "baz_db_pass",
-            "DB_HOST": "baz_db_host"
-        },
-        "COMMON_SERVICE_NAME": "db_proxy",
-        "HOST_NAME": "baz.db_proxy.rowsheet.com",
-        "CLIENT_NAME": "baz"
-    },
-    "staging_enterprise--webserver": {
-        "SERVICE_NAME": "staging_enterprise--webserver",
-        "IMAGE_NAME": "rowsheet/webserver:latest",
-        "ENV_VARS": {
-            "theme": "material",
-            "rate_limiter": 3000,
-            "site_name": "Staging Client Enterprise"
-        },
-        "COMMON_SERVICE_NAME": "webserver",
-        "HOST_NAME": "staging_enterprise.webserver.rowsheet.com",
-        "CLIENT_NAME": "staging_enterprise"
-    },
-    "foo--db_proxy": {
-        "SERVICE_NAME": "foo--db_proxy",
-        "IMAGE_NAME": "rowsheet/db_proxy:latest",
-        "ENV_VARS": {
-            "DB_USER": "foo_db_user",
-            "DB_NAME": "foo_db_name",
-            "DB_PASS": "foo_db_pass",
-            "DB_HOST": "foo_db_host"
-        },
-        "COMMON_SERVICE_NAME": "db_proxy",
-        "HOST_NAME": "foo.db_proxy.rowsheet.com",
-        "CLIENT_NAME": "foo"
-    },
-    "staging_enterprise--fake_webserver": {
-        "SERVICE_NAME": "staging_enterprise--fake_webserver",
-        "IMAGE_NAME": "rowsheet/fake_webserver:latest",
-        "ENV_VARS": {
-            "THEME": "material",
-            "SITE_NAME": "Staging Client Enterprise",
-            "RATE_LIMITER": 3000,
-            "PORT": 8000
-        },
-        "COMMON_SERVICE_NAME": "fake_webserver",
-        "HOST_NAME": "staging_enterprise.fake_webserver.rowsheet.com",
-        "CLIENT_NAME": "staging_enterprise"
-    },
-    "staging-enterprise----rowsheet--dot--com": {
-        "SERVICE_NAME": "staging-enterprise----rowsheet--dot--com",
-        "IMAGE_NAME": "rowsheet/fake_webserver:latest",
-        "ENV_VARS": {
-            "THEME": "material",
-            "SITE_NAME": "Staging Client Enterprise",
-            "RATE_LIMITER": 3000,
-            "PORT": 8000
-        },
-        "COMMON_SERVICE_NAME": "fake_webserver",
-        "HOST_NAME": "staging-enterprise..rowsheet.com",
-        "CLIENT_NAME": "staging_enterprise"
-    },
-    "db--qux--rowsheet--dot--com": {
-        "IMAGE_NAME": "rowsheet/fake_db_proxy:latest",
-        "CLIENT_NAME": "qux",
-        "ENV_VARS": {
-            "DB_PASS": "qux_db_pass",
-            "PORT": 8000,
-            "DB_USER": "qux_db_user",
-            "DB_NAME": "qux_db_name",
-            "DB_HOST": "qux_db_host",
-            "DB_PORT": "qux_db_port"
-        },
-        "COMMON_SERVICE_NAME": "fake_db_proxy",
-        "HOST_NAME": "db.qux.rowsheet.com",
-        "SERVICE_NAME": "db--qux--rowsheet--dot--com"
-    },
-    "staging_enterprise--fake_db_proxy": {
-        "SERVICE_NAME": "staging_enterprise--fake_db_proxy",
-        "IMAGE_NAME": "rowsheet/fake_db_proxy:latest",
-        "ENV_VARS": {
-            "DB_PASS": "staging_enterprise_db_pass",
-            "PORT": 8000,
-            "DB_USER": "staging_enterprise_db_user",
-            "DB_NAME": "staging_enterprise_db_name",
-            "DB_HOST": "staging_enterprise_db_host",
-            "DB_PORT": "staging_enterprise_db_port"
-        },
-        "COMMON_SERVICE_NAME": "fake_db_proxy",
-        "HOST_NAME": "staging_enterprise.fake_db_proxy.rowsheet.com",
-        "CLIENT_NAME": "staging_enterprise"
-    },
-    "staging-enterprise--store--rowsheet--dot--com": {
-        "SERVICE_NAME": "staging-enterprise--store--rowsheet--dot--com",
-        "IMAGE_NAME": "rowsheet/fake_ecommerce:latest",
-        "ENV_VARS": {
-            "MAX_PRODUCTS": 5000,
-            "SITE_NAME": "Staging Client Enterprise Store",
-            "PORT": 8000,
             "PERCENT_FEE": 3
         },
+        "HOST_NAME": "store.qux.rowsheet.com",
+        "TEST_STATUS": "NOT_IN_TEST",
         "COMMON_SERVICE_NAME": "fake_ecommerce",
-        "HOST_NAME": "staging-enterprise.store.rowsheet.com",
-        "CLIENT_NAME": "staging_enterprise"
-    },
-    "staging-premium--rowsheet--dot--com": {
-        "IMAGE_NAME": "rowsheet/fake_webserver:latest",
-        "CLIENT_NAME": "staging_premium",
-        "ENV_VARS": {
-            "THEME": "material",
-            "PORT": 8000,
-            "RATE_LIMITER": 3000,
-            "SITE_NAME": "Staging Client Premium"
-        },
-        "COMMON_SERVICE_NAME": "fake_webserver",
-        "HOST_NAME": "staging-premium.rowsheet.com",
-        "SERVICE_NAME": "staging-premium--rowsheet--dot--com"
-    },
-    "store--staging-premium--rowsheet--dot--com": {
-        "IMAGE_NAME": "rowsheet/fake_ecommerce:latest",
-        "CLIENT_NAME": "staging_premium",
-        "ENV_VARS": {
-            "MAX_PRODUCTS": 3000,
-            "PERCENT_FEE": 4,
-            "SITE_NAME": "Staging Client Premium Store",
-            "PORT": 8000
-        },
-        "COMMON_SERVICE_NAME": "fake_ecommerce",
-        "HOST_NAME": "store.staging-premium.rowsheet.com",
-        "SERVICE_NAME": "store--staging-premium--rowsheet--dot--com"
-    },
-    "staging_plus--webserver": {
-        "SERVICE_NAME": "staging_plus--webserver",
-        "IMAGE_NAME": "rowsheet/webserver:latest",
-        "ENV_VARS": {
-            "theme": "normal",
-            "rate_limiter": 1000,
-            "site_name": "Staging Client Plus"
-        },
-        "COMMON_SERVICE_NAME": "webserver",
-        "HOST_NAME": "staging_plus.webserver.rowsheet.com",
-        "CLIENT_NAME": "staging_plus"
-    },
-    "staging_enterprise--fake_analytics": {
-        "SERVICE_NAME": "staging_enterprise--fake_analytics",
-        "IMAGE_NAME": "rowsheet/fake_analytics:latest",
-        "ENV_VARS": {
-            "RATE_LIMITER": 200,
-            "API_KEY": "staging_enterprise_API_KEY",
-            "PORT": 8000
-        },
-        "COMMON_SERVICE_NAME": "fake_analytics",
-        "HOST_NAME": "staging_enterprise.fake_analytics.rowsheet.com",
-        "CLIENT_NAME": "staging_enterprise"
-    },
-    "qux--fake_webserver": {
-        "SERVICE_NAME": "qux--fake_webserver",
-        "IMAGE_NAME": "rowsheet/fake_webserver:latest",
-        "ENV_VARS": {
-            "THEME": "material",
-            "SITE_NAME": "Qux",
-            "RATE_LIMITER": 3000,
-            "PORT": 8000
-        },
-        "COMMON_SERVICE_NAME": "fake_webserver",
-        "HOST_NAME": "qux.fake_webserver.rowsheet.com",
+        "SERVICE_NAME": "store--qux--rowsheet--dot--com",
         "CLIENT_NAME": "qux"
+    },
+    "staging-free--rowsheet--dot--com": {
+        "IMAGE_NAME": "rowsheet/fake_webserver:latest",
+        "ENV_VARS": {
+            "PORT": 8000,
+            "SITE_NAME": "Staging Client Free",
+            "THEME": "normal",
+            "RATE_LIMITER": 100
+        },
+        "HOST_NAME": "staging-free.rowsheet.com",
+        "TEST_STATUS": "NOT_IN_TEST",
+        "COMMON_SERVICE_NAME": "fake_webserver",
+        "SERVICE_NAME": "staging-free--rowsheet--dot--com",
+        "CLIENT_NAME": "staging_free"
+    },
+    "store--staging-enterprise--rowsheet--dot--com": {
+        "IMAGE_NAME": "rowsheet/fake_ecommerce:latest",
+        "ENV_VARS": {
+            "PORT": 8000,
+            "MAX_PRODUCTS": 5000,
+            "SITE_NAME": "Staging Client Enterprise Store",
+            "PERCENT_FEE": 3
+        },
+        "HOST_NAME": "store.staging-enterprise.rowsheet.com",
+        "TEST_STATUS": "NOT_IN_TEST",
+        "COMMON_SERVICE_NAME": "fake_ecommerce",
+        "SERVICE_NAME": "store--staging-enterprise--rowsheet--dot--com",
+        "CLIENT_NAME": "staging_enterprise"
+    },
+    "store--bar--rowsheet--dot--com": {
+        "IMAGE_NAME": "rowsheet/fake_ecommerce:latest",
+        "ENV_VARS": {
+            "PORT": 8000,
+            "MAX_PRODUCTS": 1000,
+            "SITE_NAME": "Bar Storefront",
+            "PERCENT_FEE": 5
+        },
+        "HOST_NAME": "store.bar.rowsheet.com",
+        "TEST_STATUS": "NOT_IN_TEST",
+        "COMMON_SERVICE_NAME": "fake_ecommerce",
+        "SERVICE_NAME": "store--bar--rowsheet--dot--com",
+        "CLIENT_NAME": "bar"
+    },
+    "staging-plus--rowsheet--dot--com": {
+        "IMAGE_NAME": "rowsheet/fake_webserver:latest",
+        "ENV_VARS": {
+            "PORT": 8000,
+            "SITE_NAME": "Staging Client Plus",
+            "THEME": "normal",
+            "RATE_LIMITER": 1000
+        },
+        "HOST_NAME": "staging-plus.rowsheet.com",
+        "TEST_STATUS": "NOT_IN_TEST",
+        "COMMON_SERVICE_NAME": "fake_webserver",
+        "SERVICE_NAME": "staging-plus--rowsheet--dot--com",
+        "CLIENT_NAME": "staging_plus"
     },
     "staging-enterprise--rowsheet--dot--com": {
         "IMAGE_NAME": "rowsheet/fake_webserver:latest",
-        "CLIENT_NAME": "staging_enterprise",
         "ENV_VARS": {
+            "PORT": 8000,
+            "SITE_NAME": "Staging Client Enterprise",
             "THEME": "material",
-            "PORT": 8000,
-            "RATE_LIMITER": 3000,
-            "SITE_NAME": "Staging Client Enterprise"
+            "RATE_LIMITER": 3000
         },
-        "COMMON_SERVICE_NAME": "fake_webserver",
         "HOST_NAME": "staging-enterprise.rowsheet.com",
-        "SERVICE_NAME": "staging-enterprise--rowsheet--dot--com"
+        "TEST_STATUS": "NOT_IN_TEST",
+        "COMMON_SERVICE_NAME": "fake_webserver",
+        "SERVICE_NAME": "staging-enterprise--rowsheet--dot--com",
+        "CLIENT_NAME": "staging_enterprise"
     },
-    "db--foo--rowsheet--dot--com": {
+    "db--staging-plus--rowsheet--dot--com": {
         "IMAGE_NAME": "rowsheet/fake_db_proxy:latest",
-        "CLIENT_NAME": "foo",
         "ENV_VARS": {
-            "DB_PASS": "foo_db_pass",
             "PORT": 8000,
-            "DB_USER": "foo_db_user",
-            "DB_NAME": "foo_db_name",
-            "DB_HOST": "foo_db_host",
-            "DB_PORT": "foo_db_port"
+            "DB_HOST": "staging_plus_db_host",
+            "DB_PORT": "staging_plus_db_port",
+            "DB_PASS": "staging_plus_db_pass",
+            "DB_USER": "staging_plus_db_user",
+            "DB_NAME": "staging_plus_db_name"
         },
+        "HOST_NAME": "db.staging-plus.rowsheet.com",
+        "TEST_STATUS": "NOT_IN_TEST",
         "COMMON_SERVICE_NAME": "fake_db_proxy",
-        "HOST_NAME": "db.foo.rowsheet.com",
-        "SERVICE_NAME": "db--foo--rowsheet--dot--com"
+        "SERVICE_NAME": "db--staging-plus--rowsheet--dot--com",
+        "CLIENT_NAME": "staging_plus"
     },
-    "qux--crm--rowsheet--dot--com": {
-        "SERVICE_NAME": "qux--crm--rowsheet--dot--com",
+    "db--qux--rowsheet--dot--com": {
+        "IMAGE_NAME": "rowsheet/fake_db_proxy:latest",
+        "ENV_VARS": {
+            "PORT": 8000,
+            "DB_HOST": "qux_db_host",
+            "DB_PORT": "qux_db_port",
+            "DB_PASS": "qux_db_pass",
+            "DB_USER": "qux_db_user",
+            "DB_NAME": "qux_db_name"
+        },
+        "HOST_NAME": "db.qux.rowsheet.com",
+        "TEST_STATUS": "NOT_IN_TEST",
+        "COMMON_SERVICE_NAME": "fake_db_proxy",
+        "SERVICE_NAME": "db--qux--rowsheet--dot--com",
+        "CLIENT_NAME": "qux"
+    },
+    "crm--qux--rowsheet--dot--com": {
         "IMAGE_NAME": "rowsheet/fake_crm:latest",
         "ENV_VARS": {
             "MAX_USERS": 5000,
             "PORT": 8000
         },
+        "HOST_NAME": "crm.qux.rowsheet.com",
+        "TEST_STATUS": "NOT_IN_TEST",
         "COMMON_SERVICE_NAME": "fake_crm",
-        "HOST_NAME": "qux.crm.rowsheet.com",
-        "CLIENT_NAME": "qux"
-    },
-    "store--bar--rowsheet--dot--com": {
-        "IMAGE_NAME": "rowsheet/fake_ecommerce:latest",
-        "CLIENT_NAME": "bar",
-        "ENV_VARS": {
-            "MAX_PRODUCTS": 1000,
-            "PERCENT_FEE": 5,
-            "SITE_NAME": "Bar Storefront",
-            "PORT": 8000
-        },
-        "COMMON_SERVICE_NAME": "fake_ecommerce",
-        "HOST_NAME": "store.bar.rowsheet.com",
-        "SERVICE_NAME": "store--bar--rowsheet--dot--com"
-    },
-    "db--staging-free--rowsheet--dot--com": {
-        "IMAGE_NAME": "rowsheet/fake_db_proxy:latest",
-        "CLIENT_NAME": "staging_free",
-        "ENV_VARS": {
-            "DB_PASS": "staging_free_db_pass",
-            "PORT": 8000,
-            "DB_USER": "staging_free_db_user",
-            "DB_NAME": "staging_free_db_name",
-            "DB_HOST": "staging_free_db_host",
-            "DB_PORT": "staging_free_db_port"
-        },
-        "COMMON_SERVICE_NAME": "fake_db_proxy",
-        "HOST_NAME": "db.staging-free.rowsheet.com",
-        "SERVICE_NAME": "db--staging-free--rowsheet--dot--com"
-    },
-    "qux--store--rowsheet--dot--com": {
-        "SERVICE_NAME": "qux--store--rowsheet--dot--com",
-        "IMAGE_NAME": "rowsheet/fake_ecommerce:latest",
-        "ENV_VARS": {
-            "MAX_PRODUCTS": 5000,
-            "SITE_NAME": "Qux Storefront",
-            "PORT": 8000,
-            "PERCENT_FEE": 3
-        },
-        "COMMON_SERVICE_NAME": "fake_ecommerce",
-        "HOST_NAME": "qux.store.rowsheet.com",
-        "CLIENT_NAME": "qux"
-    },
-    "analytics--staging-enterprise--rowsheet--dot--com": {
-        "IMAGE_NAME": "rowsheet/fake_analytics:latest",
-        "CLIENT_NAME": "staging_enterprise",
-        "ENV_VARS": {
-            "API_KEY": "staging_enterprise_API_KEY",
-            "PORT": 8000,
-            "RATE_LIMITER": 200
-        },
-        "COMMON_SERVICE_NAME": "fake_analytics",
-        "HOST_NAME": "analytics.staging-enterprise.rowsheet.com",
-        "SERVICE_NAME": "analytics--staging-enterprise--rowsheet--dot--com"
-    },
-    "--qux--rowsheet--dot--com": {
-        "SERVICE_NAME": "--qux--rowsheet--dot--com",
-        "IMAGE_NAME": "rowsheet/fake_webserver:latest",
-        "ENV_VARS": {
-            "THEME": "material",
-            "SITE_NAME": "Qux",
-            "RATE_LIMITER": 3000,
-            "PORT": 8000
-        },
-        "COMMON_SERVICE_NAME": "fake_webserver",
-        "HOST_NAME": "qux.rowsheet.com",
-        "CLIENT_NAME": "qux"
-    },
-    "baz--fake_analytics": {
-        "SERVICE_NAME": "baz--fake_analytics",
-        "IMAGE_NAME": "rowsheet/fake_analytics:latest",
-        "ENV_VARS": {
-            "RATE_LIMITER": 100,
-            "API_KEY": "baz_API_KEY",
-            "PORT": 8000
-        },
-        "COMMON_SERVICE_NAME": "fake_analytics",
-        "HOST_NAME": "baz.fake_analytics.rowsheet.com",
-        "CLIENT_NAME": "baz"
-    },
-    "analytics--staging-premium--rowsheet--dot--com": {
-        "IMAGE_NAME": "rowsheet/fake_analytics:latest",
-        "CLIENT_NAME": "staging_premium",
-        "ENV_VARS": {
-            "API_KEY": "staging_premium_API_KEY",
-            "PORT": 8000,
-            "RATE_LIMITER": 100
-        },
-        "COMMON_SERVICE_NAME": "fake_analytics",
-        "HOST_NAME": "analytics.staging-premium.rowsheet.com",
-        "SERVICE_NAME": "analytics--staging-premium--rowsheet--dot--com"
-    },
-    "staging_enterprise--fake_ecommerce": {
-        "SERVICE_NAME": "staging_enterprise--fake_ecommerce",
-        "IMAGE_NAME": "rowsheet/fake_ecommerce:latest",
-        "ENV_VARS": {
-            "MAX_PRODUCTS": 5000,
-            "SITE_NAME": "Staging Client Enterprise Store",
-            "PORT": 8000,
-            "PERCENT_FEE": 3
-        },
-        "COMMON_SERVICE_NAME": "fake_ecommerce",
-        "HOST_NAME": "staging_enterprise.fake_ecommerce.rowsheet.com",
-        "CLIENT_NAME": "staging_enterprise"
-    },
-    "foo--fake_webserver": {
-        "SERVICE_NAME": "foo--fake_webserver",
-        "IMAGE_NAME": "rowsheet/fake_webserver:latest",
-        "ENV_VARS": {
-            "THEME": "normal",
-            "SITE_NAME": "Foo",
-            "RATE_LIMITER": 100,
-            "PORT": 8000
-        },
-        "COMMON_SERVICE_NAME": "fake_webserver",
-        "HOST_NAME": "foo.fake_webserver.rowsheet.com",
-        "CLIENT_NAME": "foo"
-    },
-    "baz--fake_webserver": {
-        "SERVICE_NAME": "baz--fake_webserver",
-        "IMAGE_NAME": "rowsheet/fake_webserver:latest",
-        "ENV_VARS": {
-            "THEME": "material",
-            "SITE_NAME": "Baz",
-            "RATE_LIMITER": 3000,
-            "PORT": 8000
-        },
-        "COMMON_SERVICE_NAME": "fake_webserver",
-        "HOST_NAME": "baz.fake_webserver.rowsheet.com",
-        "CLIENT_NAME": "baz"
-    },
-    "qux--crm": {
-        "SERVICE_NAME": "qux--crm",
-        "IMAGE_NAME": "rowsheet/crm:latest",
-        "ENV_VARS": {
-            "max_users": 5000
-        },
-        "COMMON_SERVICE_NAME": "crm",
-        "HOST_NAME": "qux.crm.rowsheet.com",
+        "SERVICE_NAME": "crm--qux--rowsheet--dot--com",
         "CLIENT_NAME": "qux"
     },
     "foo--rowsheet--dot--com": {
         "IMAGE_NAME": "rowsheet/fake_webserver:latest",
-        "CLIENT_NAME": "foo",
         "ENV_VARS": {
-            "THEME": "normal",
             "PORT": 8000,
-            "RATE_LIMITER": 100,
-            "SITE_NAME": "Foo"
+            "SITE_NAME": "Foo",
+            "THEME": "normal",
+            "RATE_LIMITER": 100
         },
-        "COMMON_SERVICE_NAME": "fake_webserver",
         "HOST_NAME": "foo.rowsheet.com",
-        "SERVICE_NAME": "foo--rowsheet--dot--com"
+        "TEST_STATUS": "NOT_IN_TEST",
+        "COMMON_SERVICE_NAME": "fake_webserver",
+        "SERVICE_NAME": "foo--rowsheet--dot--com",
+        "CLIENT_NAME": "foo"
     },
-    "staging_premium--webserver": {
-        "SERVICE_NAME": "staging_premium--webserver",
-        "IMAGE_NAME": "rowsheet/webserver:latest",
+    "db--baz--rowsheet--dot--com": {
+        "IMAGE_NAME": "rowsheet/fake_db_proxy:latest",
         "ENV_VARS": {
-            "theme": "material",
-            "rate_limiter": 3000,
-            "site_name": "Staging Client Premium"
+            "PORT": 8000,
+            "DB_HOST": "baz_db_host",
+            "DB_PORT": "baz_db_port",
+            "DB_PASS": "baz_db_pass",
+            "DB_USER": "baz_db_user",
+            "DB_NAME": "baz_db_name"
         },
-        "COMMON_SERVICE_NAME": "webserver",
-        "HOST_NAME": "staging_premium.webserver.rowsheet.com",
+        "HOST_NAME": "db.baz.rowsheet.com",
+        "TEST_STATUS": "NOT_IN_TEST",
+        "COMMON_SERVICE_NAME": "fake_db_proxy",
+        "SERVICE_NAME": "db--baz--rowsheet--dot--com",
+        "CLIENT_NAME": "baz"
+    },
+    "db--staging-free--rowsheet--dot--com": {
+        "IMAGE_NAME": "rowsheet/fake_db_proxy:latest",
+        "ENV_VARS": {
+            "PORT": 8000,
+            "DB_HOST": "staging_free_db_host",
+            "DB_PORT": "staging_free_db_port",
+            "DB_PASS": "staging_free_db_pass",
+            "DB_USER": "staging_free_db_user",
+            "DB_NAME": "staging_free_db_name"
+        },
+        "HOST_NAME": "db.staging-free.rowsheet.com",
+        "TEST_STATUS": "NOT_IN_TEST",
+        "COMMON_SERVICE_NAME": "fake_db_proxy",
+        "SERVICE_NAME": "db--staging-free--rowsheet--dot--com",
+        "CLIENT_NAME": "staging_free"
+    },
+    "staging-premium--rowsheet--dot--com": {
+        "IMAGE_NAME": "rowsheet/fake_webserver:latest",
+        "ENV_VARS": {
+            "PORT": 8000,
+            "SITE_NAME": "Staging Client Premium",
+            "THEME": "material",
+            "RATE_LIMITER": 3000
+        },
+        "HOST_NAME": "staging-premium.rowsheet.com",
+        "TEST_STATUS": "NOT_IN_TEST",
+        "COMMON_SERVICE_NAME": "fake_webserver",
+        "SERVICE_NAME": "staging-premium--rowsheet--dot--com",
         "CLIENT_NAME": "staging_premium"
+    },
+    "analytics--staging-premium--rowsheet--dot--com": {
+        "IMAGE_NAME": "rowsheet/fake_analytics:v0.0.4",
+        "ENV_VARS": {
+            "PORT": 8000,
+            "API_KEY": "staging_premium_API_KEY",
+            "RATE_LIMITER": 100
+        },
+        "HOST_NAME": "analytics.staging-premium.rowsheet.com",
+        "TEST_STATUS": "TEST_PASSED",
+        "COMMON_SERVICE_NAME": "fake_analytics",
+        "SERVICE_NAME": "analytics--staging-premium--rowsheet--dot--com",
+        "CLIENT_NAME": "staging_premium"
+    },
+    "db--staging-premium--rowsheet--dot--com": {
+        "IMAGE_NAME": "rowsheet/fake_db_proxy:latest",
+        "ENV_VARS": {
+            "PORT": 8000,
+            "DB_HOST": "staging_premium_db_host",
+            "DB_PORT": "staging_premium_db_port",
+            "DB_PASS": "staging_premium_db_pass",
+            "DB_USER": "staging_premium_db_user",
+            "DB_NAME": "staging_premium_db_name"
+        },
+        "HOST_NAME": "db.staging-premium.rowsheet.com",
+        "TEST_STATUS": "NOT_IN_TEST",
+        "COMMON_SERVICE_NAME": "fake_db_proxy",
+        "SERVICE_NAME": "db--staging-premium--rowsheet--dot--com",
+        "CLIENT_NAME": "staging_premium"
+    },
+    "db--bar--rowsheet--dot--com": {
+        "IMAGE_NAME": "rowsheet/fake_db_proxy:latest",
+        "ENV_VARS": {
+            "PORT": 8000,
+            "DB_HOST": "bar_db_host",
+            "DB_PORT": "bar_db_port",
+            "DB_PASS": "bar_db_pass",
+            "DB_USER": "bar_db_user",
+            "DB_NAME": "bar_db_name"
+        },
+        "HOST_NAME": "db.bar.rowsheet.com",
+        "TEST_STATUS": "NOT_IN_TEST",
+        "COMMON_SERVICE_NAME": "fake_db_proxy",
+        "SERVICE_NAME": "db--bar--rowsheet--dot--com",
+        "CLIENT_NAME": "bar"
+    },
+    "analytics--qux--rowsheet--dot--com": {
+        "IMAGE_NAME": "rowsheet/fake_analytics:v0.0.4",
+        "ENV_VARS": {
+            "PORT": 8000,
+            "API_KEY": "qux_API_KEY",
+            "RATE_LIMITER": 200
+        },
+        "HOST_NAME": "analytics.qux.rowsheet.com",
+        "TEST_STATUS": "NOT_IN_TEST",
+        "COMMON_SERVICE_NAME": "fake_analytics",
+        "SERVICE_NAME": "analytics--qux--rowsheet--dot--com",
+        "CLIENT_NAME": "qux"
+    },
+    "bar--rowsheet--dot--com": {
+        "IMAGE_NAME": "rowsheet/fake_webserver:latest",
+        "ENV_VARS": {
+            "PORT": 8000,
+            "SITE_NAME": "Bar",
+            "THEME": "normal",
+            "RATE_LIMITER": 1000
+        },
+        "HOST_NAME": "bar.rowsheet.com",
+        "TEST_STATUS": "NOT_IN_TEST",
+        "COMMON_SERVICE_NAME": "fake_webserver",
+        "SERVICE_NAME": "bar--rowsheet--dot--com",
+        "CLIENT_NAME": "bar"
+    },
+    "analytics--staging-enterprise--rowsheet--dot--com": {
+        "IMAGE_NAME": "rowsheet/fake_analytics:v0.0.4",
+        "ENV_VARS": {
+            "PORT": 8000,
+            "API_KEY": "staging_enterprise_API_KEY",
+            "RATE_LIMITER": 200
+        },
+        "HOST_NAME": "analytics.staging-enterprise.rowsheet.com",
+        "TEST_STATUS": "TEST_PASSED",
+        "COMMON_SERVICE_NAME": "fake_analytics",
+        "SERVICE_NAME": "analytics--staging-enterprise--rowsheet--dot--com",
+        "CLIENT_NAME": "staging_enterprise"
+    },
+    "db--staging-enterprise--rowsheet--dot--com": {
+        "IMAGE_NAME": "rowsheet/fake_db_proxy:latest",
+        "ENV_VARS": {
+            "PORT": 8000,
+            "DB_HOST": "staging_enterprise_db_host",
+            "DB_PORT": "staging_enterprise_db_port",
+            "DB_PASS": "staging_enterprise_db_pass",
+            "DB_USER": "staging_enterprise_db_user",
+            "DB_NAME": "staging_enterprise_db_name"
+        },
+        "HOST_NAME": "db.staging-enterprise.rowsheet.com",
+        "TEST_STATUS": "NOT_IN_TEST",
+        "COMMON_SERVICE_NAME": "fake_db_proxy",
+        "SERVICE_NAME": "db--staging-enterprise--rowsheet--dot--com",
+        "CLIENT_NAME": "staging_enterprise"
+    },
+    "db--foo--rowsheet--dot--com": {
+        "IMAGE_NAME": "rowsheet/fake_db_proxy:latest",
+        "ENV_VARS": {
+            "PORT": 8000,
+            "DB_HOST": "foo_db_host",
+            "DB_PORT": "foo_db_port",
+            "DB_PASS": "foo_db_pass",
+            "DB_USER": "foo_db_user",
+            "DB_NAME": "foo_db_name"
+        },
+        "HOST_NAME": "db.foo.rowsheet.com",
+        "TEST_STATUS": "NOT_IN_TEST",
+        "COMMON_SERVICE_NAME": "fake_db_proxy",
+        "SERVICE_NAME": "db--foo--rowsheet--dot--com",
+        "CLIENT_NAME": "foo"
+    },
+    "store--staging-plus--rowsheet--dot--com": {
+        "IMAGE_NAME": "rowsheet/fake_ecommerce:latest",
+        "ENV_VARS": {
+            "PORT": 8000,
+            "MAX_PRODUCTS": 1000,
+            "SITE_NAME": "Staging Client Plus Store",
+            "PERCENT_FEE": 5
+        },
+        "HOST_NAME": "store.staging-plus.rowsheet.com",
+        "TEST_STATUS": "NOT_IN_TEST",
+        "COMMON_SERVICE_NAME": "fake_ecommerce",
+        "SERVICE_NAME": "store--staging-plus--rowsheet--dot--com",
+        "CLIENT_NAME": "staging_plus"
+    },
+    "store--staging-premium--rowsheet--dot--com": {
+        "IMAGE_NAME": "rowsheet/fake_ecommerce:latest",
+        "ENV_VARS": {
+            "PORT": 8000,
+            "MAX_PRODUCTS": 3000,
+            "SITE_NAME": "Staging Client Premium Store",
+            "PERCENT_FEE": 4
+        },
+        "HOST_NAME": "store.staging-premium.rowsheet.com",
+        "TEST_STATUS": "NOT_IN_TEST",
+        "COMMON_SERVICE_NAME": "fake_ecommerce",
+        "SERVICE_NAME": "store--staging-premium--rowsheet--dot--com",
+        "CLIENT_NAME": "staging_premium"
+    },
+    "baz--rowsheet--dot--com": {
+        "IMAGE_NAME": "rowsheet/fake_webserver:latest",
+        "ENV_VARS": {
+            "PORT": 8000,
+            "SITE_NAME": "Baz",
+            "THEME": "material",
+            "RATE_LIMITER": 3000
+        },
+        "HOST_NAME": "baz.rowsheet.com",
+        "TEST_STATUS": "NOT_IN_TEST",
+        "COMMON_SERVICE_NAME": "fake_webserver",
+        "SERVICE_NAME": "baz--rowsheet--dot--com",
+        "CLIENT_NAME": "baz"
+    },
+    "qux--rowsheet--dot--com": {
+        "IMAGE_NAME": "rowsheet/fake_webserver:latest",
+        "ENV_VARS": {
+            "PORT": 8000,
+            "SITE_NAME": "Qux",
+            "THEME": "material",
+            "RATE_LIMITER": 3000
+        },
+        "HOST_NAME": "qux.rowsheet.com",
+        "TEST_STATUS": "NOT_IN_TEST",
+        "COMMON_SERVICE_NAME": "fake_webserver",
+        "SERVICE_NAME": "qux--rowsheet--dot--com",
+        "CLIENT_NAME": "qux"
+    },
+    "crm--staging-enterprise--rowsheet--dot--com": {
+        "IMAGE_NAME": "rowsheet/fake_crm:latest",
+        "ENV_VARS": {
+            "MAX_USERS": 5000,
+            "PORT": 8000
+        },
+        "HOST_NAME": "crm.staging-enterprise.rowsheet.com",
+        "TEST_STATUS": "NOT_IN_TEST",
+        "COMMON_SERVICE_NAME": "fake_crm",
+        "SERVICE_NAME": "crm--staging-enterprise--rowsheet--dot--com",
+        "CLIENT_NAME": "staging_enterprise"
     }
 }

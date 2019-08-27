@@ -393,9 +393,7 @@ class ServiceConfig:
             REGISTRY=registry,
             TAG_FROM=novel_tag,
             TAG_TO="latest",
-        )
-
-        local_images.PUSH(
+        ).PUSH(
             REGISTRY=registry,
             TAG="latest",
         )

@@ -302,8 +302,20 @@
                 "action": "TAG",
                 "error": false,
                 "error_msg": null
+            },
+            "2019-08-27 07:05:04Z": {
+                "action": "PUSH",
+                "error": false,
+                "error_msg": null
+            },
+            "2019-08-27 07:05:11Z": {
+                "action": "TAG",
+                "error": false,
+                "error_msg": null,
+                "timestamp": "2019-08-27 07:05:04Z"
             }
-        }
+        },
+        "timestamp": "2019-08-27 07:05:11Z"
     },
     "rowsheet/fake_crm:latest": {
         "action": "PUSH",

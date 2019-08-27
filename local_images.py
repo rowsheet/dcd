@@ -25,6 +25,7 @@ class LocalImages(JsonStore):
         history = {}
         new_status = {}
         new_status["action"] = action
+        new_status["timestamp"] = timestamp.now()
         if image_guid in self._data:
             last_status = self._data[image_guid]
             if "history" in last_status:

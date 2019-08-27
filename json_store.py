@@ -10,7 +10,7 @@ class JsonStore:
 
     def _dump(self):
         logger.debug("", line=True)
-        data_str = json.dumps(self._data, indent=4)
+        data_str = json.dumps(self._data, indent=4, sort_keys=True)
         logger.debug(data_str)
 
     def _load(self):
@@ -22,6 +22,7 @@ class JsonStore:
             file.write(
                 json.dumps(
                     self._data,
-                    indent=4
+                    indent=4,
+                    sort_keys=True,
                 )
             )

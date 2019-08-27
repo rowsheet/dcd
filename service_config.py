@@ -1,7 +1,6 @@
 import yaml
 import pyaml
 import os
-import docker
 
 from rs_utils import logger
 from rs_utils import runner
@@ -30,25 +29,57 @@ class ServiceConfig:
         self._load()
 
     def LAUNCH_FROM_CONFIG(self):
+        logger.warning("BUILD_ALL_LATEST_IMAGE_AS_LATEST", line=True)
+        logger.confirm_continue()
         self._BUILD_ALL_LATEST_IMAGE_AS_LATEST()
+        logger.warning("PUSH_ALL_LATEST_IMAGE_AS_LATEST", line=True)
+        logger.confirm_continue()
         self._PUSH_ALL_LATEST_IMAGE_AS_LATEST()
+        logger.warning("DEPLOY_ALL_LATEST_IMAGE_TO_STAGING_AND_PRODUCTION", line=True)
+        logger.confirm_continue()
         self._DEPLOY_ALL_LATEST_IMAGE_TO_STAGING_AND_PRODUCTION()
 
     def DETENCT_NOVEL_RELEASE_TAG(self, repository, novel_tag):
-        self._DEPLOY_NOVEL_IMAGE_TO_STAGING(repository, novel_tag)
-        self._BUILD_NOVEL_IMAGE_AS_NOVEL_TAG(repository, novel_tag)
-        self._MARK_PRODUCTION_CONFIG_AS_LAGGING_IMAGE(repository)
-        self._MARK_STAGING_CONFIG_AS_LAGGING_IMAGE(repository)
+        logger.warning("TAG_AND_PUSH_LATEST_IMAGE_AS_LAGGING_RELEASE", line=True)
+        logger.confirm_continue()
         self._TAG_AND_PUSH_LATEST_IMAGE_AS_LAGGING_RELEASE(repository)
+        logger.warning("MARK_STAGING_CONFIG_AS_LAGGING_IMAGE", line=True)
+        logger.confirm_continue()
+        self._MARK_STAGING_CONFIG_AS_LAGGING_IMAGE(repository)
+        logger.warning("MARK_PRODUCTION_CONFIG_AS_LAGGING_IMAGE", line=True)
+        logger.confirm_continue()
+        self._MARK_PRODUCTION_CONFIG_AS_LAGGING_IMAGE(repository)
+        logger.warning("BUILD_NOVEL_IMAGE_AS_NOVEL_TAG", line=True)
+        logger.confirm_continue()
+        self._BUILD_NOVEL_IMAGE_AS_NOVEL_TAG(repository, novel_tag)
+        logger.warning("DEPLOY_NOVEL_IMAGE_TO_STAGING", line=True)
+        logger.confirm_continue()
+        self._DEPLOY_NOVEL_IMAGE_TO_STAGING(repository, novel_tag)
 
     def PASS_STAGING(self, repository, novel_tag):
+        logger.warning("PUSH_NOVEL_IMAGE_AS_NOVEL_TAG", line=True)
+        logger.confirm_continue()
         self._PUSH_NOVEL_IMAGE_AS_NOVEL_TAG(repository, novel_tag)
+        logger.warning("MARK_STAGING_CONFIG_AS_NOVEL_IMAGE", line=True)
+        logger.confirm_continue()
         self._MARK_STAGING_CONFIG_AS_NOVEL_IMAGE(repository, novel_tag)
+        logger.warning("DEPLOY_NOVEL_IMAGE_TO_PRODUCTION", line=True)
+        logger.confirm_continue()
         self._DEPLOY_NOVEL_IMAGE_TO_PRODUCTION(repository, novel_tag)
+        logger.warning("MARK_PRODUCTION_CONFIG_AS_NOVEL_IMAGE", line=True)
+        logger.confirm_continue()
         self._MARK_PRODUCTION_CONFIG_AS_NOVEL_IMAGE(repository, novel_tag)
+        logger.warning("TAG_AND_PUSH_NOVEL_IMAGE_AS_LATEST", line=True)
+        logger.confirm_continue()
         self._TAG_AND_PUSH_NOVEL_IMAGE_AS_LATEST(repository, novel_tag)
+        logger.warning("MARK_STAGING_CONFIG_AS_LATEST", line=True)
+        logger.confirm_continue()
         self._MARK_STAGING_CONFIG_AS_LATEST(repository)
+        logger.warning("MARK_PRODUCTION_CONFIG_AS_LATEST", line=True)
+        logger.confirm_continue()
         self._MARK_PRODUCTION_CONFIG_AS_LATEST(repository)
+        logger.warning("MARK_STAGING_SERVICES_PASSED", line=True)
+        logger.confirm_continue()
         self._MARK_STAGING_SERVICES_PASSED(repository, novel_tag)
 
     #---------------------------------------------------------------------------
@@ -200,7 +231,7 @@ class ServiceConfig:
     #---------------------------------------------------------------------------
 
     def _TAG_AND_PUSH_LATEST_IMAGE_AS_LAGGING_RELEASE(self, repository):
-        # self._github_clone(repository)
+        self._github_clone(repository)
         last_tag = self._get_last_tag(repository)
         registry = self._get_registry(repository)
 

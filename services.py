@@ -113,7 +113,7 @@ class Services(JsonStore):
             "traefik.frontend.rule": "Host:%s" % HOST_NAME,
         }
 
-        # logger.confirm_continue()
+        logger.confirm_continue()
         try:
             client = docker.from_env()
             client = client.services.create(

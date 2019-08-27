@@ -8,7 +8,7 @@
             "RATE_LIMITER": 100
         },
         "HOST_NAME": "analytics.baz.rowsheet.com",
-        "IMAGE_NAME": "rowsheet/fake_analytics:v0.0.4",
+        "IMAGE_NAME": "rowsheet/fake_analytics:v0.0.5",
         "SERVICE_NAME": "analytics--baz--rowsheet--dot--com",
         "TEST_STATUS": "NOT_IN_TEST"
     },
@@ -21,7 +21,7 @@
             "RATE_LIMITER": 200
         },
         "HOST_NAME": "analytics.qux.rowsheet.com",
-        "IMAGE_NAME": "rowsheet/fake_analytics:v0.0.4",
+        "IMAGE_NAME": "rowsheet/fake_analytics:v0.0.5",
         "SERVICE_NAME": "analytics--qux--rowsheet--dot--com",
         "TEST_STATUS": "NOT_IN_TEST"
     },
@@ -36,7 +36,7 @@
         "HOST_NAME": "analytics.staging-enterprise.rowsheet.com",
         "IMAGE_NAME": "rowsheet/fake_analytics:v0.0.5",
         "SERVICE_NAME": "analytics--staging-enterprise--rowsheet--dot--com",
-        "TEST_STATUS": "WAITING_APPROVAL"
+        "TEST_STATUS": "TEST_PASSED"
     },
     "analytics--staging-premium--rowsheet--dot--com": {
         "CLIENT_NAME": "staging_premium",
@@ -49,7 +49,7 @@
         "HOST_NAME": "analytics.staging-premium.rowsheet.com",
         "IMAGE_NAME": "rowsheet/fake_analytics:v0.0.5",
         "SERVICE_NAME": "analytics--staging-premium--rowsheet--dot--com",
-        "TEST_STATUS": "WAITING_APPROVAL"
+        "TEST_STATUS": "TEST_PASSED"
     },
     "bar--rowsheet--dot--com": {
         "CLIENT_NAME": "bar",

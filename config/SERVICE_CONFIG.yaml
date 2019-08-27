@@ -213,8 +213,8 @@ services:
     service_subdomain: analytics
     tldn: rowsheet.com
     version_status:
-      prod: latest
-      stage: latest
+      prod: v0.0.4
+      stage: v0.0.4
   fake_crm:
     env_var_req:
       MAX_USERS: true

@@ -291,8 +291,8 @@ class ServiceConfig:
         service_name = self._get_service_name(repository)
 
         staging_clients_with_service = {}
-        stating_client_names_with_service = self._get_staging_clients_with_service(service_name)
-        for client_name in stating_client_names_with_service:
+        staging_client_names_with_service = self._get_staging_clients_with_service(service_name)
+        for client_name in staging_client_names_with_service:
             service_subdomain = self._config["services"][service_name]["service_subdomain"]
             tldn = self._config["services"][service_name]["tldn"]
             client_service_name = self._build_docker_service_name(
@@ -306,6 +306,7 @@ class ServiceConfig:
                 service_subdomain,
                 tldn,
             )
+            client_services = self._config["clients"][client_name]["services"]
             client_service_env_vars = client_services[service_name]
             staging_client_service_info = {
                 "IMAGE_NAME": novel_image_guid,
@@ -347,8 +348,8 @@ class ServiceConfig:
         service_name = self._get_service_name(repository)
 
         prod_clients_with_service = {}
-        stating_client_names_with_service = self._get_production_clients_with_service(service_name)
-        for client_name in stating_client_names_with_service:
+        prod_client_names_with_service = self._get_production_clients_with_service(service_name)
+        for client_name in prod_client_names_with_service:
             service_subdomain = self._config["services"][service_name]["service_subdomain"]
             tldn = self._config["services"][service_name]["tldn"]
             client_service_name = self._build_docker_service_name(
@@ -362,6 +363,7 @@ class ServiceConfig:
                 service_subdomain,
                 tldn,
             )
+            client_services = self._config["clients"][client_name]["services"]
             client_service_env_vars = client_services[service_name]
             prod_client_service_info = {
                 "IMAGE_NAME": novel_image_guid,

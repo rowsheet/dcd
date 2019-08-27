@@ -22,11 +22,38 @@ class ServiceConfig:
 
     _config = None
 
+    #---------------------------------------------------------------------------
+    # PUBLIC
+    #---------------------------------------------------------------------------
+
     def __init__(self):
         self._load()
 
+    def LAUNCH_FROM_CONFIG(self):
+        self._BUILD_ALL_LATEST_IMAGE_AS_LATEST()
+        self._PUSH_ALL_LATEST_IMAGE_AS_LATEST()
+        self._DEPLOY_ALL_LATEST_IMAGE_TO_STAGING_AND_PRODUCTION()
+
+    def DETENCT_NOVEL_RELEASE_TAG(self, repository, novel_tag):
+        self._DEPLOY_NOVEL_IMAGE_TO_STAGING(repository, novel_tag)
+        self._BUILD_NOVEL_IMAGE_AS_NOVEL_TAG(repository, novel_tag)
+        self._MARK_PRODUCTION_CONFIG_AS_LAGGING_IMAGE(repository)
+        self._MARK_STAGING_CONFIG_AS_LAGGING_IMAGE(repository)
+        self._TAG_AND_PUSH_LATEST_IMAGE_AS_LAGGING_RELEASE(repository)
+
+    def PASS_STAGING(self, repository, novel_tag):
+        self._PUSH_NOVEL_IMAGE_AS_NOVEL_TAG(repository, novel_tag)
+        self._MARK_STAGING_CONFIG_AS_NOVEL_IMAGE(repository, novel_tag)
+        self._DEPLOY_NOVEL_IMAGE_TO_PRODUCTION(repository, novel_tag)
+        self._MARK_PRODUCTION_CONFIG_AS_NOVEL_IMAGE(repository, novel_tag)
+        self._TAG_AND_PUSH_NOVEL_IMAGE_AS_LATEST(repository, novel_tag)
+        self._MARK_STAGING_CONFIG_AS_LATEST(repository)
+        self._MARK_PRODUCTION_CONFIG_AS_LATEST(repository)
+        self._MARK_STAGING_SERVICES_PASSED(repository, novel_tag)
+
     #---------------------------------------------------------------------------
-    # INITIALIZATION
+    # PRIVATE:
+    #   Initialization
     #---------------------------------------------------------------------------
 
     """
@@ -106,15 +133,11 @@ class ServiceConfig:
         os.system("rm %s" % backup_config_filepath)
 
     #---------------------------------------------------------------------------
-    # LAUNCH_FROM_CONFIG 
+    # PRIVATE:
+    #   LAUNCH_FROM_CONFIG 
     #---------------------------------------------------------------------------
 
-    def LAUNCH_FROM_CONFIG(self):
-        self.DEPLOY_ALL_LATEST_IMAGE_TO_STAGING_AND_PRODUCTION()
-        self.PUSH_ALL_LATEST_IMAGE_AS_LATEST()
-        self.BUILD_ALL_LATEST_IMAGE_AS_LATEST()
-
-    def BUILD_ALL_LATEST_IMAGE_AS_LATEST(self):
+    def _BUILD_ALL_LATEST_IMAGE_AS_LATEST(self):
         local_images = LocalImages()
         services = self._config["services"]
         for service_name, service_config in services.items():
@@ -128,7 +151,7 @@ class ServiceConfig:
             )
             print("\n")
 
-    def PUSH_ALL_LATEST_IMAGE_AS_LATEST(self):
+    def _PUSH_ALL_LATEST_IMAGE_AS_LATEST(self):
         local_images = LocalImages()
         services = self._config["services"]
         for service_name, service_config in services.items():
@@ -139,7 +162,7 @@ class ServiceConfig:
                 TAG="latest",
             )
 
-    def DEPLOY_ALL_LATEST_IMAGE_TO_STAGING_AND_PRODUCTION(self):
+    def _DEPLOY_ALL_LATEST_IMAGE_TO_STAGING_AND_PRODUCTION(self):
         services = Services()
         clients = self._config["clients"]
         for client_name, client_config in clients.items():
@@ -172,17 +195,11 @@ class ServiceConfig:
                 )
 
     #---------------------------------------------------------------------------
-    # DETENCT_NOVEL_RELEASE_TAG
+    # PRIVATE:
+    #   DETENCT_NOVEL_RELEASE_TAG
     #---------------------------------------------------------------------------
 
-    def DETENCT_NOVEL_RELEASE_TAG(self, repository, novel_tag):
-        self.DEPLOY_NOVEL_IMAGE_TO_STAGING(repository, novel_tag)
-        self.BUILD_NOVEL_IMAGE_AS_NOVEL_TAG(repository, novel_tag)
-        self.MARK_PRODUCTION_CONFIG_AS_LAGGING_IMAGE(repository)
-        self.MARK_STAGING_CONFIG_AS_LAGGING_IMAGE(repository)
-        self.TAG_AND_PUSH_LATEST_IMAGE_AS_LAGGING_RELEASE(repository)
-
-    def TAG_AND_PUSH_LATEST_IMAGE_AS_LAGGING_RELEASE(self, repository):
+    def _TAG_AND_PUSH_LATEST_IMAGE_AS_LAGGING_RELEASE(self, repository):
         # self._github_clone(repository)
         last_tag = self._get_last_tag(repository)
         registry = self._get_registry(repository)
@@ -200,21 +217,21 @@ class ServiceConfig:
             TAG=last_tag,
         )
 
-    def MARK_STAGING_CONFIG_AS_LAGGING_IMAGE(self, repository):
+    def _MARK_STAGING_CONFIG_AS_LAGGING_IMAGE(self, repository):
         service_name = self._get_service_name(repository)
         last_tag = self._get_last_tag(repository)
 
         self._config["services"][service_name]["version_status"]["stage"] = last_tag
         self._save()
 
-    def MARK_PRODUCTION_CONFIG_AS_LAGGING_IMAGE(self, repository):
+    def _MARK_PRODUCTION_CONFIG_AS_LAGGING_IMAGE(self, repository):
         service_name = self._get_service_name(repository)
         last_tag = self._get_last_tag(repository)
 
         self._config["services"][service_name]["version_status"]["prod"] = last_tag
         self._save()
 
-    def BUILD_NOVEL_IMAGE_AS_NOVEL_TAG(self, repository, novel_tag):
+    def _BUILD_NOVEL_IMAGE_AS_NOVEL_TAG(self, repository, novel_tag):
         repo_name = self._build_repo_name(repository)
         repo_path = self._build_repo_path(repository)
         registry = self._get_registry(repository)
@@ -238,7 +255,7 @@ class ServiceConfig:
         )
         print("\n")
 
-    def DEPLOY_NOVEL_IMAGE_TO_STAGING(self, repository, novel_tag):
+    def _DEPLOY_NOVEL_IMAGE_TO_STAGING(self, repository, novel_tag):
         registry = self._get_registry(repository)
         service_name = self._get_service_name(repository)
 
@@ -274,20 +291,11 @@ class ServiceConfig:
             services.UPGRADE(**config)
 
     #---------------------------------------------------------------------------
-    # PASS_STAGING
+    # PRIVATE:
+    #   PASS_STAGING
     #---------------------------------------------------------------------------
 
-    def PASS_STAGING(self, repository, novel_tag):
-        self.PUSH_NOVEL_IMAGE_AS_NOVEL_TAG(repository, novel_tag)
-        self.MARK_STAGING_CONFIG_AS_NOVEL_IMAGE(repository, novel_tag)
-        self.DEPLOY_NOVEL_IMAGE_TO_PRODUCTION(repository, novel_tag)
-        self.MARK_PRODUCTION_CONFIG_AS_NOVEL_IMAGE(repository, novel_tag)
-        self.TAG_AND_PUSH_NOVEL_IMAGE_AS_LATEST(repository, novel_tag)
-        self.MARK_STAGING_CONFIG_AS_LATEST(repository)
-        self.MARK_PRODUCTION_CONFIG_AS_LATEST(repository)
-        self.MARK_STAGING_SERVICES_PASSED(repository, novel_tag)
-
-    def PUSH_NOVEL_IMAGE_AS_NOVEL_TAG(self, repository, novel_tag):
+    def _PUSH_NOVEL_IMAGE_AS_NOVEL_TAG(self, repository, novel_tag):
         registry = self._get_registry(repository)
 
         local_images = LocalImages()
@@ -297,13 +305,13 @@ class ServiceConfig:
             TAG=novel_tag,
         )
 
-    def MARK_STAGING_CONFIG_AS_NOVEL_IMAGE(self, repository, novel_tag):
+    def _MARK_STAGING_CONFIG_AS_NOVEL_IMAGE(self, repository, novel_tag):
         service_name = self._get_service_name(repository)
 
         self._config["services"][service_name]["version_status"]["stage"] = novel_tag
         self._save()
 
-    def DEPLOY_NOVEL_IMAGE_TO_PRODUCTION(self, repository, novel_tag):
+    def _DEPLOY_NOVEL_IMAGE_TO_PRODUCTION(self, repository, novel_tag):
         registry = self._get_registry(repository)
         service_name = self._get_service_name(repository)
 
@@ -339,13 +347,13 @@ class ServiceConfig:
             config["TEST_STATUS"] = "NOT_IN_TEST"
             services.UPGRADE(**config)
 
-    def MARK_PRODUCTION_CONFIG_AS_NOVEL_IMAGE(self, repository, novel_tag):
+    def _MARK_PRODUCTION_CONFIG_AS_NOVEL_IMAGE(self, repository, novel_tag):
         service_name = self._get_service_name(repository)
 
         self._config["services"][service_name]["version_status"]["prod"] = novel_tag
         self._save()
 
-    def TAG_AND_PUSH_NOVEL_IMAGE_AS_LATEST(self, repository, novel_tag):
+    def _TAG_AND_PUSH_NOVEL_IMAGE_AS_LATEST(self, repository, novel_tag):
         # self._github_clone(repository)
         registry = self._get_registry(repository)
 
@@ -362,19 +370,19 @@ class ServiceConfig:
             TAG="latest",
         )
 
-    def MARK_STAGING_CONFIG_AS_LATEST(self, repository):
+    def _MARK_STAGING_CONFIG_AS_LATEST(self, repository):
         service_name = self._get_service_name(repository)
 
         self._config["services"][service_name]["version_status"]["stage"] = "latest"
         self._save()
 
-    def MARK_PRODUCTION_CONFIG_AS_LATEST(self, repository):
+    def _MARK_PRODUCTION_CONFIG_AS_LATEST(self, repository):
         service_name = self._get_service_name(repository)
 
         self._config["services"][service_name]["version_status"]["prod"] = "latest"
         self._save()
 
-    def MARK_STAGING_SERVICES_PASSED(self, repository, novel_tag):
+    def _MARK_STAGING_SERVICES_PASSED(self, repository, novel_tag):
         service_name = self._get_service_name(repository)
         staging_clients_with_service = self._get_staging_clients_with_service(service_name)
         logger.warning(staging_clients_with_service)
@@ -392,7 +400,8 @@ class ServiceConfig:
             )
 
     #---------------------------------------------------------------------------
-    # Helper Methods
+    # PRIVATE:
+    #   Helper Methods
     #---------------------------------------------------------------------------
 
     def _build_docker_service_name(self, client_name, service_subdomain, tldn):

@@ -25,10 +25,12 @@ class Services(JsonStore):
             id = names_to_ids[SERVICE_NAME]
             service = client.services.get(id)
             service.remove()
+        return self
 
     def MARK_TEST_PASSED(self, SERVICE_NAME=None):
         self._data[SERVICE_NAME]["TEST_STATUS"] = "TEST_PASSED"
         self._save()
+        return self
 
     def UPGRADE(self,
             IMAGE_NAME=None,
@@ -74,6 +76,7 @@ class Services(JsonStore):
             CLIENT_NAME=CLIENT_NAME,
             TEST_STATUS=TEST_STATUS,
         )
+        return self
 
     def CREATE(self,
             IMAGE_NAME=None,
@@ -133,3 +136,4 @@ class Services(JsonStore):
 
         self._data[SERVICE_NAME] = info_dict
         self._save()
+        return self

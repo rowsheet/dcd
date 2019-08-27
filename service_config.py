@@ -215,8 +215,7 @@ class ServiceConfig:
                 )
                 services.DELETE(
                     SERVICE_NAME=service_name,
-                )
-                services.CREATE(
+                ).CREATE(
                     IMAGE_NAME=image_name,
                     HOST_NAME=host_name,
                     SERVICE_NAME=service_name,
@@ -241,9 +240,7 @@ class ServiceConfig:
             REGISTRY=registry,
             TAG_FROM="latest",
             TAG_TO=last_tag,
-        )
-
-        local_images.PUSH(
+        ).PUSH(
             REGISTRY=registry,
             TAG=last_tag,
         )

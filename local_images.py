@@ -58,6 +58,7 @@ class LocalImages(JsonStore):
         )
         self._mark_image_action_response(image_guid, response, "TAG")
         self._save()
+        return self
 
     def BUILD(self, REPOSITORY=None, REGISTRY=None, TAG=None):
         repo_name = REPOSITORY.split("/")[1].split(".")[0]
@@ -73,6 +74,7 @@ class LocalImages(JsonStore):
         )
         self._mark_image_action_response(image_guid, response, "BUILD")
         self._save()
+        return self
 
     def PUSH(self, REGISTRY=None, TAG=None):
         image_guid = self._image_guid(
@@ -86,3 +88,4 @@ class LocalImages(JsonStore):
         )
         self._mark_image_action_response(image_guid, response, "PUSH")
         self._save()
+        return self

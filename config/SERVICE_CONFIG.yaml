@@ -206,6 +206,8 @@ services:
   fake_analytics:
     registry: rowsheet/fake_analytics
     repository: github.com:rowsheet/fake_analytics.git
+    tldn: rowsheet.com
+    service_subdomain: analytics
     version_status:
       prod: latest
       stage: latest
@@ -216,6 +218,8 @@ services:
   fake_crm:
     registry: rowsheet/fake_crm
     repository: github.com:rowsheet/fake_crm.git
+    tldn: rowsheet.com
+    service_subdomain: crm
     version_status:
       prod: latest
       stage: latest
@@ -225,6 +229,8 @@ services:
   fake_db_proxy:
     registry: rowsheet/fake_db_proxy
     repository: github.com:rowsheet/fake_db_proxy.git
+    tldn: rowsheet.com
+    service_subdomain: db
     version_status:
       prod: latest
       stage: latest
@@ -239,6 +245,8 @@ services:
   fake_ecommerce:
     registry: rowsheet/fake_ecommerce
     repository: github.com:rowsheet/fake_ecommerce.git
+    tldn: rowsheet.com
+    service_subdomain: store
     version_status:
       prod: latest
       stage: latest
@@ -250,6 +258,8 @@ services:
   fake_webserver:
     registry: rowsheet/fake_webserver
     repository: github.com:rowsheet/fake_webserver.git
+    tldn: rowsheet.com
+    service_subdomain: ''
     version_status:
       prod: latest
       stage: latest

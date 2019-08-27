@@ -17,11 +17,20 @@ class Services(JsonStore):
     def __init__(self):
         super(self.__class__, self).__init__()
 
+    def DELETE(self, SERVICE_NAME=None):
+        client = docker.from_env()
+        services = client.services.list()
+        names_to_ids = {service.name: service.id for service in services}
+        if SERVICE_NAME in names_to_ids:
+            id = names_to_ids[SERVICE_NAME]
+            service = client.services.get(id)
+            service.remove()
+
     def CREATE(self,
             IMAGE_NAME=None,
             HOST_NAME=None,
             SERVICE_NAME=None,
-            ENV_VARS=[],
+            ENV_VARS={},
             COMMON_SERVICE_NAME=None,
             CLIENT_NAME=None, 
         ):
@@ -52,14 +61,16 @@ class Services(JsonStore):
             "traefik.frontend.rule": "Host:%s" % HOST_NAME,
         }
 
+        logger.confirm_continue()
         try:
             client = docker.from_env()
-            client.services.create(
+            client = client.services.create(
                 image = IMAGE_NAME,
-                networks = NETWORKS,
-                labels = LABELS,
                 name = SERVICE_NAME,
                 env = ENV_VARS,
+
+                networks = NETWORKS,
+                labels = LABELS,
             )
             logger.success("Successfully created service '%s'" % SERVICE_NAME)
         except Exception as ex:

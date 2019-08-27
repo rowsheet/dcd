@@ -21,6 +21,8 @@ service_config = ServiceConfig()
 # Step 1) “Latest” image built from last master commit ID (from commit_A)
 #-------------------------------------------------------------------------------
 
+"""
+
 service_config.BUILD_ALL_LATEST_IMAGE_AS_LATEST()
 
 #-------------------------------------------------------------------------------
@@ -35,7 +37,6 @@ service_config.PUSH_ALL_LATEST_IMAGE_AS_LATEST()
 
 service_config.DEPLOY_ALL_LATEST_IMAGE_TO_STAGING_AND_CLIENTS()
 
-"""
 
 #-------------------------------------------------------------------------------
 # Step 4) A new master branch is pushed to Github. This is detected with a registered web-hook.
@@ -46,21 +47,15 @@ def DETENCT_NOVEL_RELEASE_TAG(
 
 """
 
-"""
 
 #-------------------------------------------------------------------------------
 # Step 5) The last “latest” image is tagged as “commit_A”, representing the codebase version it was running.
-#-------------------------------------------------------------------------------
-
-def TAG_LATEST_IMAGE_AS_LAGGING_RELEASE(
-    GIT_RELEASE_TAG,
-
-#-------------------------------------------------------------------------------
 # Step 6) The newly tagged image (tagged from the last commit_id) is pushed to dockerhub.
 #-------------------------------------------------------------------------------
 
-def PUSH_LAGGING_IMAGE_AS_LAGGING_RELEASE(
-    GIT_RELEASE_TAG
+service_config.TAG_AND_PUSH_LATEST_IMAGE_AS_LAGGING_RELEASE("github.com:rowsheet/fake_analytics.git")
+
+"""
 
 #-------------------------------------------------------------------------------
 # Step 7) Vendor and staging configurations will be marked to use the tag “commit_A”.

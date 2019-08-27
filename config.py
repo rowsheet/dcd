@@ -1,7 +1,7 @@
 import os
 
 def DCD_DIR():
-    return "/root/deploy/dcd"
+    return os.getcwd()
 
 def DCD_SERVICES_DIR():
     return os.path.join(DCD_DIR(), "services")

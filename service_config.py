@@ -1,6 +1,7 @@
 import yaml
 import pyaml
 import os
+import docker
 
 from rs_utils import logger
 from rs_utils import runner
@@ -104,7 +105,7 @@ class ServiceConfig:
         for service_name, service_config in services.items():
             repository = service_config["repository"]
             registry = service_config["registry"]
-            GITHUB_CLONE(repository)
+            self._github_clone(repository)
             local_images.BUILD(
                 REPOSITORY=repository,
                 REGISTRY=registry,
@@ -123,6 +124,20 @@ class ServiceConfig:
                 TAG="latest",
             )
 
+    def _build_docker_service_name(self, client_name, service_subdomain, tldn):
+        return ("%s--%s--%s" % (
+            service_subdomain,
+            client_name,
+            tldn.replace(".","--dot--"),
+        )).replace("_","-").replace(".","--").replace(" ","").strip("--").lower()
+
+    def _build_hostname(self, client_name, service_subdomain, tldn):
+        return ("%s.%s.%s" % (
+            service_subdomain,
+            client_name,
+            tldn,
+        )).replace("_","-").replace(" ","").replace("..",".").strip(".").lower()
+
     def DEPLOY_ALL_LATEST_IMAGE_TO_STAGING_AND_CLIENTS(self):
         services = Services()
         clients = self._config["clients"]
@@ -130,16 +145,22 @@ class ServiceConfig:
             client_services = client_config["services"]
             for client_service_name, client_service_env_vars in client_services.items():
                 registry = self._config["services"][client_service_name]["registry"]
+                tldn = self._config["services"][client_service_name]["tldn"]
+                service_subdomain = self._config["services"][client_service_name]["service_subdomain"]
                 image_name = registry + ":latest"
-                service_name = "--".join([
+                service_name = self._build_docker_service_name(
                     client_name,
-                    client_service_name,
-                ])
-                host_name = ".".join([
+                    service_subdomain,
+                    tldn,
+                )
+                host_name = self._build_hostname(
                     client_name,
-                    client_service_name,
-                    "rowsheet.com",
-                ]) 
+                    service_subdomain,
+                    tldn,
+                )
+                services.DELETE(
+                    SERVICE_NAME=service_name,
+                )
                 services.CREATE(
                     IMAGE_NAME=image_name,
                     HOST_NAME=host_name,
@@ -149,30 +170,110 @@ class ServiceConfig:
                     CLIENT_NAME=client_name,
                 )
 
-def GITHUB_CLONE(repository):
-    repo_name = repository.split("/")[1].split(".")[0]
-    repo_path = os.path.join(config.DCD_SERVICES_DIR(), repo_name, "")
-    deploy_key_path = os.path.join(config.DCD_DEPLOY_KEYS_DIR(), repo_name)
+    def _build_repo_path(self, repository):
+        repo_name = self._build_repo_name(repository)
+        return os.path.join(config.DCD_SERVICES_DIR(), repo_name, "")
 
-    if os.path.isdir(config.DCD_OLD_CLONES_DIR()) == False:
-        os.system("mkdir %s" % config.DCD_OLD_CLONES_DIR())
-    file_timestamp = timestamp.now().replace(" ","_")
-    mv_old_cmd = "mv %s %s%s" % (
+    def _build_repo_name(self, repository):
+        return repository.split("/")[1].split(".")[0]
+
+    def _build_deploy_key_path(self, repository):
+        repo_name = self._build_repo_name(repository)
+        return os.path.join(config.DCD_DEPLOY_KEYS_DIR(), repo_name)
+
+    def _get_last_tag(self, repository):
+        repo_path = self._build_repo_path(repository)
+
+        response = runner.step(
+            "cd %s && git tag" % repo_path,
+            "Getting tags...",
+        )
+
+        if response.ERROR == True:
+            raise Exception("Unable to get git tags.")
+
+        tags = list(filter(lambda tag: tag != "", response.STDOUT.split("\n")))
+        logger.warning(tags)
+        if len(tags) == 0:
+            last_tag = "start"
+        elif len(tags) == 1:
+            last_tag = "v0.0.0"
+        else:
+            last_tag = tags[-2]
+        return last_tag
+
+    def _get_registry(self, repository):
+        target_service = None
+        for service_name, service in self._config["services"].items():
+            if service["repository"] == repository:
+                target_service = service
+                break
+        registry = target_service["registry"]
+        return registry
+
+    def TAG_AND_PUSH_LATEST_IMAGE_AS_LAGGING_RELEASE(self, repository):
+        self._github_clone(repository)
+        last_tag = self._get_last_tag(repository)
+        registry = self._get_registry(repository)
+
+        image_guid_from = registry + ":latest"
+        image_guid_to = registry + ":" + last_tag
+
+        cmd = "docker tag %s %s" % (
+            image_guid_from,
+            image_guid_to,
+        )
+        response = runner.step(
+            cmd,
+            "Tagging image '%s' with lagging release '%s'" % (
+                registry,
+                last_tag,
+            ),
+            stdout_log = False,
+        )
+        if response.ERROR == True:
+            raise Exception("Error tagging image with lagging relase: %s" %
+                response.STDERR)
+
+        cmd = "docker push %s" % image_guid_to
+        response = runner.step(
+            cmd,
+            "Pushing image '%s' with lagging release '%s'" % (
+                registry,
+                last_tag,
+            ),
+            stdout_log = False,
+        )
+        if response.ERROR == True:
+            raise Exception("Error pushing lagging relase image '%s': %s" % (
+                image_guid_to,
+                response.STDERR,
+            ))
+
+    def _github_clone(self, repository):
+        repo_name = self._build_repo_name(repository)
+        repo_path = self._build_repo_path(repository)
+        deploy_key_path = self._build_deploy_key_path(repository)
+
+        if os.path.isdir(config.DCD_OLD_CLONES_DIR()) == False:
+            os.system("mkdir %s" % config.DCD_OLD_CLONES_DIR())
+        file_timestamp = timestamp.now().replace(" ","_")
+        mv_old_cmd = "mv %s %s%s" % (
+                repo_path,
+                os.path.join(config.DCD_OLD_CLONES_DIR(), repo_name),
+                file_timestamp
+        )
+        response = runner.step(
+            mv_old_cmd,
+            "Moving old repos to archive dir."
+        )
+
+        clone_cmd = "ssh-agent bash -c 'ssh-add %s; git clone git@%s %s'" % (
+            deploy_key_path,
+            repository,
             repo_path,
-            os.path.join(config.DCD_OLD_CLONES_DIR(), repo_name),
-            file_timestamp
-    )
-    response = runner.step(
-        mv_old_cmd,
-        "Moving old repos to archive dir."
-    )
-
-    clone_cmd = "git clone -c core.sshCommand=\"ssh -i %s\" git@%s %s" % (
-        deploy_key_path,
-        repository,
-        repo_path,
-    )
-    response = runner.step(
-        clone_cmd,
-        "Cloning or pulling repository '%s'" % repository
-    )
+        )
+        response = runner.step(
+            clone_cmd,
+            "Cloning or pulling repository '%s'" % repository
+        )

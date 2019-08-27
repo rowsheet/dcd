@@ -1,6 +1,10 @@
-services/
+services/*
+!services/.gittrack
+services/.old/*
+!services/.old/.gittrack
+deploy_keys/*
+!deploy_keys/.gittrack
 .scratch
-deploy_keys/
 __pycache__/
 __pycache__/*
 acme.json

@@ -12,8 +12,17 @@ GITHUB_SECRET="VC83D7PVEVHYMXMK8AR7KHIS6WBIFK6DNHUVWQB0276EPGA1E0OIVMX"
 
 def parse_data(request_body):
     data = json.loads(request_body.decode('utf-8'))
-    data_str = json.dumps(data, indent=4)
-    logger.debug(data_str)
+    if "ref_type" not in data:
+        return
+    ref_type = data["ref_type"]
+    if ref_type != "tag":
+        return
+    tag = data["ref"]
+    repository = "github.com:%s.git" % data["repository"]["full_name"]
+    logger.success("%s : %s" % (
+        tag,
+        repository,
+    ))
 
 def verify_hash(request_body, x_hub_signature):
     h = hmac.new(
